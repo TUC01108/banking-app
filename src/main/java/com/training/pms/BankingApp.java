@@ -6,7 +6,7 @@ import com.training.pms.dao.ProductDAO;
 import com.training.pms.dao.ProductDAOImpl;
 import com.training.pms.model.Product;
 
-public class ProductApp {
+public class BankingApp {
 	Scanner scanner = new Scanner(System.in);
 	int choice = 0;
 	ProductDAO productDAO = new ProductDAOImpl();
@@ -22,7 +22,7 @@ public class ProductApp {
 
 		while (true) {
 
-			System.out.println("P R O D U C T      -    APP    MENU");
+			System.out.println("B A N K I N G      -    APP    MENU");
 			System.out.println("1. Add Product ");
 			System.out.println("2. Delete Product ");
 			System.out.println("3. Update Product ");
@@ -53,6 +53,7 @@ public class ProductApp {
 				price = scanner.nextInt();
 
 				product = new Product(productId, productName, quantityOnHand, price);
+				
 				// call dao layer to save product
 				productDAO.addProduct(product);
 				System.out.println("\nCongratulations, your product : " + productName + " saved successfully\n");
