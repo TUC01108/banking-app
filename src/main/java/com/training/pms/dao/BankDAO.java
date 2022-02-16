@@ -1,10 +1,10 @@
 package com.training.pms.dao;
 
-import com.training.pms.model.Product;
+import com.training.pms.model.Bank;
 
-public interface ProductDAO {
-	public void addProduct(Product product);
-	public void updateProduct(Product product);
+public interface BankDAO {
+	public void addBankAccount(Bank product);
+	public void updateProduct(Bank product);
 	public void deleteProduct(int productId);
 	public void searchByProductId(int productId);
 	public void searchByProductName(String productName);

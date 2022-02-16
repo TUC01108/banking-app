@@ -1,15 +1,15 @@
 package com.training.pms.dao;
 
-import com.training.pms.model.Product;
+import com.training.pms.model.Bank;
 
-public class ProductDAOImpl implements ProductDAO {
+public class BankDAOImpl implements BankDAO {
 
-	public void addProduct(Product product) {
+	public void addBankAccount(Bank product) {
 		System.out.println("Adding product : "+product);
 
 	}
 
-	public void updateProduct(Product product) {
+	public void updateProduct(Bank product) {
 		System.out.println("Updating product : "+product);
 
 	}

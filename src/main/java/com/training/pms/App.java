@@ -8,7 +8,7 @@ public class App
 {
     public static void main( String[] args )
     {
-        BankingApp productApp = new BankingApp();
-        productApp.startProductApp();
+        BankApp bankApp = new BankApp();
+        bankApp.startBankApp();
     }
 }
