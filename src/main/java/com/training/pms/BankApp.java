@@ -28,7 +28,7 @@ public class BankApp {
 			System.out.println("3. Make Withdrawal from Account ");
 			System.out.println("4. Make Deposit to Account ");
 			System.out.println("5. Search Product By Name ");
-			System.out.println("6. Print All Products ");
+			System.out.println("6. Print All Accounts ");
 			System.out.println("9. E X I T ");
 
 			System.out.println("Please enter your choice : ");
