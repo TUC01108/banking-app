@@ -23,10 +23,10 @@ public class BankApp {
 		while (true) {
 
 			System.out.println("B A N K I N G      -    APP    MENU");
-			System.out.println("1. Add Product ");
-			System.out.println("2. Delete Product ");
-			System.out.println("3. Update Product ");
-			System.out.println("4. Search Product By Id ");
+			System.out.println("1. Login to Account ");
+			System.out.println("2. Create Account ");
+			System.out.println("3. Make Withdrawal from Account ");
+			System.out.println("4. Make Deposit to Account ");
 			System.out.println("5. Search Product By Name ");
 			System.out.println("6. Print All Products ");
 			System.out.println("9. E X I T ");
@@ -38,6 +38,11 @@ public class BankApp {
 			case 1:
 				// login to account section
 				System.out.println("WELCOME TO ACCOUNT LOGIN SECTION");
+				// take input from user to create an account
+				System.out.println("Please enter account id :");
+				accountId = scanner.nextInt();
+				
+				break; 
 				
 			case 2:
 				// create account section
