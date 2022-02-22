@@ -21,16 +21,17 @@ public class BankApp {
 		String password = null;
 
 		while (true) {
-
+			System.out.println("=========================================");
 			System.out.println("B A N K I N G      -    APP    MENU");
 			System.out.println("1. Login to Account ");
 			System.out.println("2. Create Account ");
 			System.out.println("3. Make Withdrawal from Account ");
 			System.out.println("4. Make Deposit to Account ");
-			System.out.println("5. Search Product By Name ");
+			System.out.println("5. Search Account By Name ");
 			System.out.println("6. Print All Accounts ");
+			System.out.println("7. Search Accounts by Account Balance(lower/upper");
 			System.out.println("9. E X I T ");
-
+			System.out.println("=========================================");
 			System.out.println("Please enter your choice : ");
 			choice = scanner.nextInt();
 
@@ -80,8 +81,23 @@ public class BankApp {
 
 				// make deposit section
 				System.out.println("WELCOME TO MAKE DEPOSIT SECTION ");
-
 				
+			case 5:
+				System.out.println("Please enter Account name to search : ");
+				accountName = scanner.next();
+				bankDAO.searchByAccountName(accountName);
+				break;
+				
+			case 6:
+				bankDAO.printAllAccounts();
+				break;
+				
+			case 7:
+				System.out.println("Please enter account balance (lower) :");
+				int lowerAmount = scanner.nextInt();
+				System.out.println("Please enter account balance (upper) :");
+				int upperAmount = scanner.nextInt();
+				bankDAO.searchAccountsByBalance(lowerAmount,upperAmount);
 				break;
 
 			case 9:
