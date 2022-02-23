@@ -3,7 +3,7 @@ package com.training.pms.model;
 import java.util.Objects;
 
 //MODEL or POJO ( plain old java object )
-public class Bank {
+public class User {
 	private int userId;
 	private String accountName;
 	private String username;
@@ -11,11 +11,11 @@ public class Bank {
 	private int balance;
 	private String accounttype;
 	
-	public Bank() {
+	public User() {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public Bank(int userId, String accountName, String username, String password, int balance, String accounttype) {
+	public User(int userId, String accountName, String username, String password, int balance, String accounttype) {
 		this.userId = userId;
 		this.accountName = accountName;
 		this.username = username;
@@ -91,7 +91,7 @@ public class Bank {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Bank other = (Bank) obj;
+		User other = (User) obj;
 		return Objects.equals(accountName, other.accountName) && Objects.equals(accounttype, other.accounttype)
 				&& balance == other.balance && Objects.equals(password, other.password) && userId == other.userId
 				&& Objects.equals(username, other.username);

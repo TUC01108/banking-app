@@ -7,26 +7,25 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import com.training.pms.model.Bank;
+import com.training.pms.model.User;
 import com.training.pms.utility.DBConnection;
 
-public class BankDAOImpl implements BankDAO {
+public class UserDAOImpl implements UserDAO {
 	
 	Connection con = DBConnection.getConnection();
 
-	public void addAccount(Bank bank) {
-		System.out.println("Adding account : "+bank);
-		
+	public boolean addUser(User user) {
+		System.out.println("Adding account : "+user);
 		PreparedStatement statement = null;
 
 		try {
 			statement = con.prepareStatement("insert into users values(?,?,?,?,?)");
 
-			statement.setInt(1, bank.getUserId());
-			statement.setString(2, bank.getAccountName());
-			statement.setString(3, bank.getUsername());
-			statement.setString(4, bank.getPassword());
-			statement.setString(5, bank.getAccounttype());
+			statement.setInt(1, user.getUserId());
+			statement.setString(2, user.getAccountName());
+			statement.setString(3, user.getUsername());
+			statement.setString(4, user.getPassword());
+			statement.setString(5, user.getAccounttype());
 
 			int rows = statement.executeUpdate();
 			System.out.println(rows + " added successfully");
@@ -35,24 +34,52 @@ public class BankDAOImpl implements BankDAO {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		//Change code above
+		return false;
 
 	}
 
 	@Override
-	public void updateAccount(Bank account) {
+	public boolean updateUser(User account) {
 		System.out.println("Updating account : "+account);
+		PreparedStatement statement = null;
+		int rows = 0;
+		/*
+		try {
+			statement = con.prepareStatement(
+					"update user set user = ?, quantityonhand = ?, price = ? where productId = ?");
+
+			statement.setString(1, product.getProductName());
+			statement.setInt(2, product.getQuantityOnHand());
+			statement.setInt(3, product.getPrice());
+			statement.setInt(4, product.getProductId());
+
+			rows = statement.executeUpdate();
+			System.out.println(rows + " updated successfully");
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		*/
+		if (rows == 0)
+			return false;
+		else
+			return true;
 		
 	}
 
 	@Override
-	public void deleteAccount(int userId) {
-		System.out.println("Deleting account with accountId : "+userId);
+	public boolean deleteUser(int userId) {
+		System.out.println("Deleting account with user_Id : "+userId);
+		return false;
 		
 	}
 
 	@Override
-	public void searchByUserId(int userId) {
-		System.out.println("Searching for account with accountId : "+userId);
+	public User searchByUserId(int userId) {
+		System.out.println("Searching for account with user__Id : "+userId);
+		return null;
 		
 	}
 
@@ -96,7 +123,7 @@ public class BankDAOImpl implements BankDAO {
 	}
 
 	@Override
-	public void printAllAccounts() {
+	public void printAllUsers() {
 		System.out.println("Printing all accounts ");
 		
 		try {
@@ -171,6 +198,24 @@ public class BankDAOImpl implements BankDAO {
 			e.printStackTrace();
 		}
 		
+	}
+
+	@Override
+	public boolean isUserExists(int userId) {
+		boolean userExists = false;
+		PreparedStatement stat;
+		
+		try {
+			stat = con.prepareStatement("select * from users where user_Id = ? ");
+			stat.setInt(1, userId);
+
+			ResultSet res = stat.executeQuery();
+			userExists = res.next();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return userExists;
 	}
 
 }
