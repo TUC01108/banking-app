@@ -1,31 +1,39 @@
 package com.training.pms.model;
 
+import java.util.Objects;
+
 //MODEL or POJO ( plain old java object )
 public class Bank {
-	private int accountId;
+	private int userId;
 	private String accountName;
-	private int balance;
+	private String username;
 	private String password;
+	private int balance;
+	private String accounttype;
 	
 	public Bank() {
 		// TODO Auto-generated constructor stub
 	}
-
-	public Bank(int accountId, String accountName, int balance, String password) {
-		this.accountId = accountId;
-		this.accountName = accountName;
-		this.balance = balance;
-		this.password = password;
-	}
-
 	
-
-	public int getAccountId() {
-		return accountId;
+	public Bank(int userId, String accountName, String username, String password, int balance, String accounttype) {
+		this.userId = userId;
+		this.accountName = accountName;
+		this.username = username;
+		this.password = password;
+		this.balance = balance;
+		this.accounttype = accounttype;
 	}
 
-	public void setAccountId(int accountId) {
-		this.accountId = accountId;
+
+
+
+
+	public int getUserId() {
+		return userId;
+	}
+
+	public void setUserId(int userId) {
+		this.userId = userId;
 	}
 
 	public String getAccountName() {
@@ -36,12 +44,12 @@ public class Bank {
 		this.accountName = accountName;
 	}
 
-	public int getBalance() {
-		return balance;
+	public String getUsername() {
+		return username;
 	}
 
-	public void setBalance(int balance) {
-		this.balance = balance;
+	public void setUsername(String username) {
+		this.username = username;
 	}
 
 	public String getPassword() {
@@ -52,15 +60,27 @@ public class Bank {
 		this.password = password;
 	}
 
+	public int getBalance() {
+		return balance;
+	}
+
+	public void setBalance(int balance) {
+		this.balance = balance;
+	}
+	
+	
+
+	public String getAccounttype() {
+		return accounttype;
+	}
+
+	public void setAccounttype(String accounttype) {
+		this.accounttype = accounttype;
+	}
+
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + accountId;
-		result = prime * result + ((accountName == null) ? 0 : accountName.hashCode());
-		result = prime * result + balance;
-		result = prime * result + ((password == null) ? 0 : password.hashCode());
-		return result;
+		return Objects.hash(accountName, accounttype, balance, password, userId, username);
 	}
 
 	@Override
@@ -72,31 +92,16 @@ public class Bank {
 		if (getClass() != obj.getClass())
 			return false;
 		Bank other = (Bank) obj;
-		if (accountId != other.accountId)
-			return false;
-		if (accountName == null) {
-			if (other.accountName != null)
-				return false;
-		} else if (!accountName.equals(other.accountName))
-			return false;
-		if (balance != other.balance)
-			return false;
-		if (password == null) {
-			if (other.password != null)
-				return false;
-		} else if (!password.equals(other.password))
-			return false;
-		return true;
+		return Objects.equals(accountName, other.accountName) && Objects.equals(accounttype, other.accounttype)
+				&& balance == other.balance && Objects.equals(password, other.password) && userId == other.userId
+				&& Objects.equals(username, other.username);
 	}
 
 	@Override
 	public String toString() {
-		return "Bank [accountId=" + accountId + ", accountName=" + accountName + ", balance=" + balance + ", password="
-				+ password + "]";
+		return "Bank [userId=" + userId + ", accountName=" + accountName + ", username=" + username + ", password="
+				+ password + ", balance=" + balance + ", accounttype=" + accounttype + "]";
 	}
 
-	
-	
-	
 
 }

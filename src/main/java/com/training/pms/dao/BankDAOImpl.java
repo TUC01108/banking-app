@@ -14,8 +14,27 @@ public class BankDAOImpl implements BankDAO {
 	
 	Connection con = DBConnection.getConnection();
 
-	public void addBankAccount(Bank product) {
-		System.out.println("Adding product : "+product);
+	public void addAccount(Bank bank) {
+		System.out.println("Adding account : "+bank);
+		
+		PreparedStatement statement = null;
+
+		try {
+			statement = con.prepareStatement("insert into users values(?,?,?,?,?)");
+
+			statement.setInt(1, bank.getUserId());
+			statement.setString(2, bank.getAccountName());
+			statement.setString(3, bank.getUsername());
+			statement.setString(4, bank.getPassword());
+			statement.setString(5, bank.getAccounttype());
+
+			int rows = statement.executeUpdate();
+			System.out.println(rows + " added successfully");
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 	}
 
@@ -26,26 +45,26 @@ public class BankDAOImpl implements BankDAO {
 	}
 
 	@Override
-	public void deleteAccount(int accountId) {
-		System.out.println("Deleting account with accountId : "+accountId);
+	public void deleteAccount(int userId) {
+		System.out.println("Deleting account with accountId : "+userId);
 		
 	}
 
 	@Override
-	public void searchByAccountId(int accountId) {
-		System.out.println("Searching for account with accountId : "+accountId);
+	public void searchByUserId(int userId) {
+		System.out.println("Searching for account with accountId : "+userId);
 		
 	}
 
 	@Override
-	public void searchByAccountName(String accountName) {
-		System.out.println("Searching for account with account name : "+accountName);
+	public void searchByUsername(String username) {
+		System.out.println("Searching for account with account name : "+username);
 		
 		try {
 			//Statement stat = con.createStatement();
 			PreparedStatement stat;
 			stat = con.prepareStatement("select * from account where accountName like ? ");
-			stat.setString(1, accountName);
+			stat.setString(1, username);
 			ResultSet res = stat.executeQuery();
 
 			// Retrieve the column information
@@ -82,8 +101,9 @@ public class BankDAOImpl implements BankDAO {
 		
 		try {
 			Statement stat = con.createStatement();
-			// change to account table once created
-			ResultSet res = stat.executeQuery("select * from product");
+			
+			// change to CORRECT table once created
+			ResultSet res = stat.executeQuery("select * from users");
 
 			// Retrieve the column information
 			ResultSetMetaData rsmd = res.getMetaData();
@@ -114,13 +134,13 @@ public class BankDAOImpl implements BankDAO {
 	}
 
 	@Override
-	public void searchAccountsByBalance(int lowerAmount, int upperAmount) {
-		System.out.println("Searching accounts with account balances between :"+lowerAmount+" and "+upperAmount);
+	public void searchUsersByBalance(int lowerAmount, int upperAmount) {
+		System.out.println("Searching users with balances between :"+lowerAmount+" and "+upperAmount);
 		PreparedStatement stat;
 		try {
 			//Statement stat = con.createStatement();
 			
-			stat = con.prepareStatement("select * from product where price between ? and ?");
+			stat = con.prepareStatement("select * from users where balance between ? and ?");
 			stat.setInt(1, lowerAmount);
 			stat.setInt(2, upperAmount);
 			ResultSet res = stat.executeQuery();
