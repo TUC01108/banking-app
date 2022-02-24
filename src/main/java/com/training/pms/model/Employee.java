@@ -3,21 +3,21 @@ package com.training.pms.model;
 import java.util.Objects;
 
 //MODEL or POJO ( plain old java object )
-public class User {
+public class Employee {
 	private int userId;
-	private String accountName;
+	private String firstname;
 	private String username;
 	private String password;
 	private int balance;
 	private String accounttype;
 	
-	public User() {
+	public Employee() {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public User(int userId, String accountName, String username, String password, int balance, String accounttype) {
+	public Employee(int userId, String accountName, String username, String password, int balance, String accounttype) {
 		this.userId = userId;
-		this.accountName = accountName;
+		this.firstname = accountName;
 		this.username = username;
 		this.password = password;
 		this.balance = balance;
@@ -37,11 +37,11 @@ public class User {
 	}
 
 	public String getAccountName() {
-		return accountName;
+		return firstname;
 	}
 
 	public void setAccountName(String accountName) {
-		this.accountName = accountName;
+		this.firstname = accountName;
 	}
 
 	public String getUsername() {
@@ -80,7 +80,7 @@ public class User {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(accountName, accounttype, balance, password, userId, username);
+		return Objects.hash(firstname, accounttype, balance, password, userId, username);
 	}
 
 	@Override
@@ -91,15 +91,15 @@ public class User {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		User other = (User) obj;
-		return Objects.equals(accountName, other.accountName) && Objects.equals(accounttype, other.accounttype)
+		Employee other = (Employee) obj;
+		return Objects.equals(firstname, other.firstname) && Objects.equals(accounttype, other.accounttype)
 				&& balance == other.balance && Objects.equals(password, other.password) && userId == other.userId
 				&& Objects.equals(username, other.username);
 	}
 
 	@Override
 	public String toString() {
-		return "Bank [userId=" + userId + ", accountName=" + accountName + ", username=" + username + ", password="
+		return "Bank [userId=" + userId + ", accountName=" + firstname + ", username=" + username + ", password="
 				+ password + ", balance=" + balance + ", accounttype=" + accounttype + "]";
 	}
 

@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
 
 class UserDAOImplTest {
 	
-	UserDAO userDAO;
+	CustomerDAO userDAO;
 
 	@BeforeAll
 	static void setUpBeforeClass() throws Exception {
@@ -23,7 +23,7 @@ class UserDAOImplTest {
 
 	@BeforeEach
 	void setUp() throws Exception {
-		userDAO = new UserDAOImpl();
+		userDAO = new CustomerDAOImpl();
 	}
 
 	@AfterEach

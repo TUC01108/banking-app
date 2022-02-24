@@ -7,14 +7,14 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import com.training.pms.model.User;
+import com.training.pms.model.Customer;
 import com.training.pms.utility.DBConnection;
 
-public class UserDAOImpl implements UserDAO {
+public class CustomerDAOImpl implements CustomerDAO {
 	
 	Connection con = DBConnection.getConnection();
 
-	public boolean addUser(User user) {
+	public boolean addUser(Customer user) {
 		System.out.println("Adding account : "+user);
 		PreparedStatement statement = null;
 
@@ -40,7 +40,7 @@ public class UserDAOImpl implements UserDAO {
 	}
 
 	@Override
-	public boolean updateUser(User account) {
+	public boolean updateUser(Customer account) {
 		System.out.println("Updating account : "+account);
 		PreparedStatement statement = null;
 		int rows = 0;
@@ -77,7 +77,7 @@ public class UserDAOImpl implements UserDAO {
 	}
 
 	@Override
-	public User searchByUserId(int userId) {
+	public Customer searchByUserId(int userId) {
 		System.out.println("Searching for account with user__Id : "+userId);
 		return null;
 		

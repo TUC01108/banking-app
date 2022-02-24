@@ -6,17 +6,17 @@ import java.util.Scanner;
 
 import com.training.pms.dao.LoginDAO;
 import com.training.pms.dao.LoginDAOImpl;
-import com.training.pms.dao.UserDAO;
-import com.training.pms.dao.UserDAOImpl;
+import com.training.pms.dao.CustomerDAO;
+import com.training.pms.dao.CustomerDAOImpl;
 import com.training.pms.model.Login;
 
-import com.training.pms.model.User;
+import com.training.pms.model.Customer;
 
 public class BankApp {
 	Scanner scanner = new Scanner(System.in);
 	int choice = 0;
-	UserDAO userDAO = new UserDAOImpl();
-	User user = new User();
+	CustomerDAO customerDAO = new CustomerDAOImpl();
+	Customer customer = new Customer();
 	LoginDAO loginDAO = new LoginDAOImpl();
 	Login login = new Login();
 
@@ -110,7 +110,7 @@ public class BankApp {
 				
 				login = new Login(userId, username, password);
 				
-				boolean isValidRegister = loginDAO.register(login);
+				boolean isValidRegister = loginDAO.register(login, customer);
 				
 				if (!isValidRegister) {
 					System.out.println("Username already exists, please try another.");
@@ -184,7 +184,7 @@ public class BankApp {
 			 * bankDAO.searchAccountsByBalance(lowerAmount,upperAmount); break;
 			 */
 			case 6:
-				userDAO.printAllUsers();
+				customerDAO.printAllUsers();
 				break;
 
 			case 9:
