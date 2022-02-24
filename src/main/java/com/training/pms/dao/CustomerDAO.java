@@ -1,6 +1,7 @@
 package com.training.pms.dao;
 
 import com.training.pms.model.Customer;
+import com.training.pms.model.Employee;
 
 public interface CustomerDAO {
 	public boolean addUser(Customer customer);
@@ -11,5 +12,6 @@ public interface CustomerDAO {
 	public void printAllUsers();
 	public void searchUsersByBalance(int lowerAmount, int upperAmount);
 	public boolean isUserExists(int userId);
+	public boolean withdrawalFromAccount(Customer customer, int amount);
 	
 }

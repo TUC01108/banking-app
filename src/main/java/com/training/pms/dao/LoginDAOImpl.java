@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.training.pms.model.Customer;
+import com.training.pms.model.Employee;
 import com.training.pms.model.Login;
 import com.training.pms.utility.DBConnection;
 
@@ -16,19 +17,18 @@ public class LoginDAOImpl implements LoginDAO {
 	Connection con = DBConnection.getConnection();
 
 	@Override
-	public boolean register(Login login, Customer customer) {
+	public boolean register(Login login, Customer customer, Employee employee, String accounttype, int balance) {
 		System.out.println("Adding user : " + login);
 		PreparedStatement statement = null;
 		int rows = 0;
 
 		try {
-			
-			
-			
-			statement = con.prepareStatement("insert into customers values(default,?,?,?,default)");
+			if(accounttype.equalsIgnoreCase("C")) {
+			statement = con.prepareStatement("insert into customers values(default,?,?,?,?,default)");
 			statement.setString(1, "bobby");
 			statement.setString(2, login.getUsername());
 			statement.setString(3, login.getPassword());
+			statement.setInt(4, balance);
 			rows = statement.executeUpdate();
 			System.out.println(rows + " customer added to database");
 			
@@ -39,6 +39,23 @@ public class LoginDAOImpl implements LoginDAO {
 			statement.setString(2, login.getPassword());
 			rows = statement.executeUpdate();
 			System.out.println(rows + " user registered successfully");
+			} else {
+				statement = con.prepareStatement("insert into employees values(default,?,?,?,?,default)");
+				statement.setString(1, "bobby");
+				statement.setString(2, login.getUsername());
+				statement.setString(3, login.getPassword());
+				statement.setInt(4, balance);
+				rows = statement.executeUpdate();
+				System.out.println(rows + " employee added to database");
+				
+				statement = null;
+				rows = 0;
+				statement = con.prepareStatement("insert into login values(default,?,?)");
+				statement.setString(1, login.getUsername());
+				statement.setString(2, login.getPassword());
+				rows = statement.executeUpdate();
+				System.out.println(rows + " user registered successfully");
+			}
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -97,5 +114,7 @@ public class LoginDAOImpl implements LoginDAO {
 		}
 		return loginExists;
 	}
+
+	
 
 }
