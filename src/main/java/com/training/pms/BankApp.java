@@ -108,9 +108,11 @@ public class BankApp {
 				System.out.println("Please enter password :");
 				password = scanner.next();
 				
-				isValidLogin = loginDAO.register(login);
+				login = new Login(userId, username, password);
 				
-				if (!isValidLogin) {
+				boolean isValidRegister = loginDAO.register(login);
+				
+				if (!isValidRegister) {
 					System.out.println("Username already exists, please try another.");
 					continue;
 				}

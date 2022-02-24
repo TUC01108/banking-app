@@ -28,7 +28,7 @@ public class LoginDAOImpl implements LoginDAO {
 			
 
 			rows = statement.executeUpdate();
-			System.out.println(rows + " created successfully");
+			System.out.println(rows + " user registered successfully");
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
