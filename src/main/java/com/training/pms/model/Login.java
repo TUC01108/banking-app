@@ -3,7 +3,7 @@ package com.training.pms.model;
 import java.util.Objects;
 
 public class Login {
-	private int loginId;
+	private int userId;
 	private String username;
 	private String password;
 	
@@ -11,40 +11,58 @@ public class Login {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Login(int loginId, String username, String password) {
-		this.loginId = loginId;
+	
+
+	public Login(int userId, String username, String password) {
+		this.userId = userId;
 		this.username = username;
 		this.password = password;
 	}
 
-	public int getLoginId() {
-		return loginId;
+
+
+	public int getUserId() {
+		return userId;
 	}
 
-	public void setLoginId(int loginId) {
-		this.loginId = loginId;
+
+
+	public void setUserId(int userId) {
+		this.userId = userId;
 	}
+
+
 
 	public String getUsername() {
 		return username;
 	}
 
+
+
 	public void setUsername(String username) {
 		this.username = username;
 	}
+
+
 
 	public String getPassword() {
 		return password;
 	}
 
+
+
 	public void setPassword(String password) {
 		this.password = password;
 	}
 
+
+
 	@Override
 	public int hashCode() {
-		return Objects.hash(loginId, password, username);
+		return Objects.hash(password, userId, username);
 	}
+
+
 
 	@Override
 	public boolean equals(Object obj) {
@@ -55,14 +73,20 @@ public class Login {
 		if (getClass() != obj.getClass())
 			return false;
 		Login other = (Login) obj;
-		return loginId == other.loginId && Objects.equals(password, other.password)
+		return Objects.equals(password, other.password) && userId == other.userId
 				&& Objects.equals(username, other.username);
 	}
 
+
+
 	@Override
 	public String toString() {
-		return "Login [loginId=" + loginId + ", username=" + username + ", password=" + password + "]";
+		return "Login [userId=" + userId + ", username=" + username + ", password=" + password + "]";
 	}
+
+
+
+	
 	
 	
 

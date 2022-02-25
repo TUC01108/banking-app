@@ -12,6 +12,6 @@ public interface CustomerDAO {
 	public void printAllUsers();
 	public void searchUsersByBalance(int lowerAmount, int upperAmount);
 	public boolean isUserExists(int userId);
-	public boolean withdrawalFromAccount(Customer customer, int amount);
+	//public boolean withdrawalFromAccount(Customer customer, int amount);
 	
 }

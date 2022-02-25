@@ -1,5 +1,6 @@
 package com.training.pms.dao;
 
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -85,6 +86,8 @@ public class LoginDAOImpl implements LoginDAO {
 				login.setUsername(res.getString(1));
 				login.setPassword(res.getString(2));
 				logins.add(login);
+				
+				System.out.println("USER ID : "+login.getUserId());
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -113,6 +116,49 @@ public class LoginDAOImpl implements LoginDAO {
 			e.printStackTrace();
 		}
 		return loginExists;
+	}
+	
+	@Override
+	public boolean withdrawalFromAccount(String username, int amount) {
+		CallableStatement stat;
+		try {
+			stat = con.prepareCall("call withdrawal(?,?)");
+			System.out.println(username);
+			stat.setString(1, username);
+			stat.setInt(2, amount);
+
+			stat.execute();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;
+		}
+
+		System.out.println("Transfer done/completed");
+		
+		return true;
+	}
+	
+	@Override
+	public boolean transferFromAccount(String username, String receiver, int amount) {
+		CallableStatement stat;
+		try {
+			stat = con.prepareCall("call transfer(?,?,?)");
+			System.out.println("sending->"+username+" : receiving->"+receiver);
+			stat.setString(1, username);
+			stat.setString(2, receiver);
+			stat.setInt(3, amount);
+
+			stat.execute();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;
+		}
+
+		System.out.println("Transfer done/completed");
+		
+		return true;
 	}
 
 	

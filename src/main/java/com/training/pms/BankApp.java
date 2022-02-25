@@ -89,7 +89,8 @@ public class BankApp {
 				System.out.println("Please enter password: ");
 				password = scanner.next();
 				boolean isValidLogin = loginDAO.validate(username, password);
-
+				login = new Login(userId, username, password);
+				System.out.println(login);
 				if (!isValidLogin) {
 					System.out.println("Incorrect username or password. Try again");
 					continue;
@@ -115,7 +116,9 @@ public class BankApp {
 						System.out.println("WELCOME TO WITHDRAWAL FROM ACCOUNT SECTION");
 						System.out.println("Enter the ammount to be withdrawn :");
 						int amount = scanner.nextInt();
-						boolean isValidWithdrawal = customerDAO.withdrawalFromAccount(customer, amount);
+						System.out.println("Username is : "+username);
+						System.out.println("UserId is : "+userId);
+						boolean isValidWithdrawal = loginDAO.withdrawalFromAccount(username, amount);
 						
 						if (!isValidWithdrawal) {
 							System.out.println("Withdrawal was unsuccessful. Try again");
@@ -127,7 +130,22 @@ public class BankApp {
 					case 2:
 						// DEPOSIT TO ANOTHER account section
 						System.out.println("WELCOME TO DEPOSIT TO ANOTHER ACCOUNT SECTION");
+						amount = 0;
+						System.out.println("Enter the ammount to be transfered :");
+						amount = scanner.nextInt();
+						//String sender = username;
+						System.out.println("Sender is : "+username);
+						System.out.println("Enter username you would like to transfer to : ");
+						 
+						String receiver = scanner.next();
+						boolean isValidTransfer = loginDAO.transferFromAccount(username, receiver, amount);
 						
+						if (!isValidTransfer) {
+							System.out.println("Withdrawal was unsuccessful. Try again");
+							continue;
+						}
+
+						System.out.println("Account was credited : " + amount);
 						break;
 					
 					case 3:

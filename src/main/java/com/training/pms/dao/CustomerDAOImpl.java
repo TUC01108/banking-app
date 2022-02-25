@@ -216,14 +216,14 @@ public class CustomerDAOImpl implements CustomerDAO {
 		}
 		return userExists;
 	}
-
+	/*
 	@Override
-	public boolean withdrawalFromAccount(Customer customer, int amount) {
+	public boolean withdrawalFromAccount(Login login, int amount) {
 		CallableStatement stat;
 		try {
 			stat = con.prepareCall("call withdrawal(?,?)");
-			System.out.println(customer.getUserId());
-			stat.setInt(1, customer.getUserId());
+			System.out.println(login.getUsername());
+			stat.setString(1, login.getUsername());
 			stat.setInt(2, amount);
 
 			stat.execute();
@@ -237,5 +237,6 @@ public class CustomerDAOImpl implements CustomerDAO {
 		
 		return true;
 	}
+	*/
 
 }
