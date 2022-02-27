@@ -34,17 +34,17 @@ public class BankApp {
 		int userId = 0;
 		String username = null;
 		String password = null;
-		long balance = 0;
 		String accounttype = null;
 		String firstname = null;
-		boolean notValid = true;
-		List<Customer> customers = new ArrayList<Customer>();
-
+		String receiver = null;
+		long balance = 0;
 		long amount = 0;
+		boolean notValid = true;
 		boolean isValidTransfer = true;
 		boolean isValidAdd = true;
+		List<Customer> customers = new ArrayList<Customer>();
 		List<Transactions> transaction = new ArrayList<Transactions>();
-
+		
 		while (true) {
 			System.out.println("=========================================");
 			System.out.println("B A N K I N G      -    APP    MENU");
@@ -71,18 +71,15 @@ public class BankApp {
 						notValid = false;
 					}
 				} while (notValid);
-				System.out.println("Selected valid account type");
+				//System.out.println("Selected valid account type");
 				System.out.println("=============================\n");
+				
 				// take input from user to create an account
 				System.out.println("Please enter username: ");
 				username = scanner.next();
 				System.out.println("Please enter password: ");
 				password = scanner.next();
 				boolean isValidLogin = loginDAO.validate(username, password);
-				String receiver;
-
-				// login = new Login(userId, username, password);
-				// System.out.println("LOGIN object : " + login);
 
 				if (!isValidLogin) {
 					System.out.println("Incorrect username or password. Try again");
@@ -98,8 +95,8 @@ public class BankApp {
 				// USER IS LOGGED IN
 
 				// Divide into CUSTOMER and EMPLOYEE FUNCTIONALITY
-
-				// System.out.println("account type is : "+accounttype);
+				
+				// EMPLOYEE MENU
 				if (accounttype.equalsIgnoreCase("E")) {
 
 					while (true) {
@@ -143,7 +140,7 @@ public class BankApp {
 							
 							customers = employeeDAO.searchByUsername(username);
 							if (customers.size()==0) {
-								System.out.println("No products matching your criteria");
+								System.out.println("No username matching your criteria");
 								continue;
 							}
 							printUsersDetails(customers);
@@ -166,13 +163,14 @@ public class BankApp {
 							System.exit(0);
 							break;
 						default:
-							System.out.println("Invalid choice , Please enter (1-4) or 9 to EXIT");
+							System.out.println("Invalid choice , Please enter (1-3) or 9 to EXIT");
 							break;
 						}
 
 					}
 				}
-
+				
+				// CUSTOMER MENU
 				else if (accounttype.equals("C") && customer.getFirstname() != null) {
 
 					while (true) {
@@ -265,8 +263,10 @@ public class BankApp {
 							}
 
 							System.out.println("Sender is : " + username);
+							do {
 							System.out.println("Enter username you would like to transfer to : ");
 							receiver = scanner.next();
+							} while (!customerDAO.isUserExists(receiver));
 
 							isValidTransfer = customerDAO.transferFromAccount(username, receiver, amount);
 							

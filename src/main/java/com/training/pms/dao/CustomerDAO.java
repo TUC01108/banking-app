@@ -10,6 +10,7 @@ public interface CustomerDAO {
 	public boolean transferFromAccount(String sender, String receiver, long amount);
 	public boolean addTransaction(Customer customer, long amount);
 	public boolean addTransaction(Customer customer, String receiver, long amount);
+	public boolean isUserExists(String username);
 	
 	//public boolean addUser(Customer customer);
 	//public boolean updateUser(Customer customer);

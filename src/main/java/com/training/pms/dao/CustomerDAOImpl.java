@@ -184,6 +184,29 @@ public class CustomerDAOImpl implements CustomerDAO {
 		else
 			return true;
 	}
+
+	@Override
+	public boolean isUserExists(String username) {
+		boolean loginExists = false;
+		PreparedStatement stat;
+		con = DBConnection.getConnection();
+
+		try {
+			stat = con.prepareStatement("select * from login where username = ? ");
+			stat.setString(1, username);
+
+			ResultSet res = stat.executeQuery();
+			loginExists = res.next();
+			
+			res.close();
+			stat.close();
+			con.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return loginExists;
+	}
 	
 	/*
 	public boolean addUser(Customer user) {
