@@ -1,6 +1,5 @@
 package com.training.pms.dao;
 
-import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -56,6 +55,9 @@ public class LoginDAOImpl implements LoginDAO {
 				rows = statement.executeUpdate();
 				System.out.println(rows + " user registered successfully");
 			}
+			
+			statement.close();
+			con.close();
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -91,6 +93,10 @@ public class LoginDAOImpl implements LoginDAO {
 				
 				//System.out.println("USER ID for login object : "+login.getUserId());
 			}
+			
+			res.close();
+			stat.close();
+			con.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -113,6 +119,10 @@ public class LoginDAOImpl implements LoginDAO {
 
 			ResultSet res = stat.executeQuery();
 			loginExists = res.next();
+			
+			res.close();
+			stat.close();
+			con.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

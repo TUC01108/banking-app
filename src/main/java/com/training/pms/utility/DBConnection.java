@@ -28,6 +28,7 @@ public class DBConnection {
 			e.printStackTrace();
 		} catch (SQLException e) {
 			e.printStackTrace();
+			return con;
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -37,5 +38,6 @@ public class DBConnection {
 		}
 		return con;
 	}
+	
 
 }

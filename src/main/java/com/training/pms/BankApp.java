@@ -1,6 +1,5 @@
 package com.training.pms;
 
-import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -93,10 +92,7 @@ public class BankApp {
 
 				customer = customerDAO.getValues(username, password);
 				employee = employeeDAO.getValues(username, password);
-				/*
-				 * System.out.println("CUSTOMER object : " + customer);
-				 * System.out.println("EMPLOYEE object : " + employee);
-				 */
+
 				System.out.println("Welcome, " + username);
 
 				// USER IS LOGGED IN
@@ -110,8 +106,8 @@ public class BankApp {
 						System.out.println("=========================================");
 						System.out.println(
 								employee.getFirstname().toUpperCase() + "\'S B A N K I N G      -    APP    MENU");
-						System.out.println("1. Approve or Reject Accounts ");
-						System.out.println("2. View Customers Bank Account By Name ");
+						System.out.println("[TO DO] 1. Approve or Reject Accounts ");
+						System.out.println("[TO DO] 2. View Customers Bank Account By Name ");
 						System.out.println("3. View Log of All Transactions ");
 						System.out.println("9. E X I T ");
 						System.out.println("=========================================");
@@ -120,17 +116,31 @@ public class BankApp {
 
 						switch (choice) {
 						case 1:
-							// Withdrawal from account section
+							// Approve or reject accounts section
 							System.out.println("APPROVE OR REJECT ACCOUNTS SECTION");
+							customerDAO.printAllUsers();
+							System.out.println("Please enter username to delete :");
+							username = scanner.next();
+							
+							if(loginDAO.isLoginExists(username))
+							{
+								employeeDAO.deleteUser(username);
+								System.out.println("Product with product id : "+username+ " deleted successfully");
+							}
+							else
+							{
+								System.out.println("Product with product id : "+username+ " does not exists, hence cannot be deleted");
+
+							}
 
 							break;
 						case 2:
-							// Withdrawal from account section
+							// View customers accounts section
 							System.out.println("VIEW CUSTOMERS ACCOUNTS SECTION");
 
 							break;
 						case 3:
-							// Withdrawal from account section
+							// View log of all transactions section
 							System.out.println("VIEW LOG OF ALL TRANSACTIONS SECTION");
 							transaction = employeeDAO.getTransactions();
 							if (transaction.size()==0) {
@@ -336,32 +346,30 @@ public class BankApp {
 				System.out.println("Congrats, - " + username + " - you are registered");
 
 				break;
-			/*
-			 * case 3:
-			 * 
-			 * // make withdraw section
-			 * System.out.println("WELCOME TO MAKE WITHDRAWAL SECTION ");
-			 * 
-			 * 
-			 * break;
-			 * 
-			 * case 4:
-			 * 
-			 * // make deposit section
-			 * System.out.println("WELCOME TO MAKE DEPOSIT SECTION ");
-			 * 
-			 * case 5: System.out.println("Please enter Account name to search : ");
-			 * accountName = scanner.next(); bankDAO.searchByAccountName(accountName);
-			 * break;
-			 * 
-			 * 
-			 * 
-			 * case 7: System.out.println("Please enter account balance (lower) :"); int
-			 * lowerAmount = scanner.nextInt();
-			 * System.out.println("Please enter account balance (upper) :"); int upperAmount
-			 * = scanner.nextInt();
-			 * bankDAO.searchAccountsByBalance(lowerAmount,upperAmount); break;
-			 */
+			
+			 case 3:
+			  
+			 // make withdraw section
+			 System.out.println("WELCOME TO KNOW MORE ABOUT BANKING APP SECTION ");
+			 System.out.println("TO DO: Fill in with information about how it was built.");
+			 System.out.println();
+			 System.out.println();
+			 System.out.println();
+			 System.out.println();
+			 System.out.println();
+			 System.out.println();
+			 break;
+			  
+			 case 4:
+			  
+			 // make deposit section
+			 System.out.println("WELCOME TO Know About Developer SECTION ");
+			 System.out.println("Go to GITHUB HERE -> https://github.com/TUC01108");
+			 System.out.println();
+			 System.out.println();
+			 
+			 break;
+			 
 			case 6:
 				customerDAO.printAllUsers();
 				break;

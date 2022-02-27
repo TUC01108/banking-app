@@ -33,6 +33,9 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 
 			int rows = statement.executeUpdate();
 			System.out.println(rows + " added successfully");
+			
+			statement.close();
+			con.close();
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -79,6 +82,13 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 		return false;
 		
 	}
+	
+	@Override
+	public boolean deleteUser(String username) {
+		System.out.println("Deleting account with user_Id : "+username);
+		return false;
+		
+	}
 
 	@Override
 	public Employee searchByUserId(int userId) {
@@ -118,6 +128,10 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 				}
 				System.out.println();
 			}
+			
+			res.close();
+			stat.close();
+			con.close();
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -156,6 +170,10 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 				}
 				System.out.println();
 			}
+			
+			res.close();
+			stat.close();
+			con.close();
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -196,6 +214,10 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 				}
 				System.out.println();
 			}
+			
+			res.close();
+			stat.close();
+			con.close();
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -215,6 +237,10 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 
 			ResultSet res = stat.executeQuery();
 			userExists = res.next();
+			
+			res.close();
+			stat.close();
+			con.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -247,6 +273,10 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 				
 				System.out.println("USER ID from employee object : "+employee.getUserId());
 			}
+			
+			res.close();
+			stat.close();
+			con.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -276,6 +306,10 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 				transaction.setTransactiontime(res.getTimestamp(4));
 				transactions.add(transaction);
 			}
+			
+			res.close();
+			stat.close();
+			con.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

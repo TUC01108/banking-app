@@ -11,5 +11,6 @@ public interface LoginDAO {
 	
 	
 	public boolean isLoginExists(String username);
+	
 
 }

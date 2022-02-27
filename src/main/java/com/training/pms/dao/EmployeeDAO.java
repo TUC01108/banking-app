@@ -9,6 +9,9 @@ public interface EmployeeDAO {
 	public boolean addUser(Employee employee);
 	public boolean updateUser(Employee employee);
 	public boolean deleteUser(int userId);
+	
+	public boolean deleteUser(String username);
+			
 	public Employee searchByUserId(int userId);
 	public void searchByUsername(String username);
 	public void printAllUsers();

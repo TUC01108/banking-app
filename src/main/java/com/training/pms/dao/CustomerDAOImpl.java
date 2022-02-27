@@ -11,8 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.training.pms.model.Customer;
-import com.training.pms.model.Employee;
-import com.training.pms.model.Login;
 import com.training.pms.utility.DBConnection;
 
 public class CustomerDAOImpl implements CustomerDAO {
@@ -34,6 +32,9 @@ public class CustomerDAOImpl implements CustomerDAO {
 
 			int rows = statement.executeUpdate();
 			System.out.println(rows + " added successfully");
+			
+			statement.close();
+			con.close();
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -116,6 +117,10 @@ public class CustomerDAOImpl implements CustomerDAO {
 				}
 				System.out.println();
 			}
+			
+			res.close();
+			stat.close();
+			con.close();
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -132,7 +137,7 @@ public class CustomerDAOImpl implements CustomerDAO {
 			Statement stat = con.createStatement();
 
 			// change to CORRECT table once created
-			ResultSet res = stat.executeQuery("select * from users");
+			ResultSet res = stat.executeQuery("select * from customers");
 
 			// Retrieve the column information
 			ResultSetMetaData rsmd = res.getMetaData();
@@ -154,11 +159,17 @@ public class CustomerDAOImpl implements CustomerDAO {
 				}
 				System.out.println();
 			}
+			
+			res.close();
+			stat.close();
+			con.close();
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		
 
 	}
 
@@ -194,6 +205,10 @@ public class CustomerDAOImpl implements CustomerDAO {
 				}
 				System.out.println();
 			}
+			
+			res.close();
+			stat.close();
+			con.close();
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -213,6 +228,10 @@ public class CustomerDAOImpl implements CustomerDAO {
 
 			ResultSet res = stat.executeQuery();
 			userExists = res.next();
+			
+			res.close();
+			stat.close();
+			con.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -268,6 +287,10 @@ public class CustomerDAOImpl implements CustomerDAO {
 				
 				//System.out.println("USER ID customer object : "+customer.getUserId());
 			}
+			
+			res.close();
+			stat.close();
+			con.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -289,6 +312,9 @@ public class CustomerDAOImpl implements CustomerDAO {
 			stat.setLong(2, amount);
 
 			stat.execute();
+			
+			stat.close();
+			con.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -310,6 +336,9 @@ public class CustomerDAOImpl implements CustomerDAO {
 			stat.setLong(2, amount);
 
 			stat.execute();
+			
+			stat.close();
+			con.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -332,6 +361,9 @@ public class CustomerDAOImpl implements CustomerDAO {
 			stat.setLong(3, amount);
 
 			stat.execute();
+			
+			stat.close();
+			con.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -356,7 +388,8 @@ public class CustomerDAOImpl implements CustomerDAO {
 			rows = statement.executeUpdate();
 			System.out.println(rows + " transaction added to database");
 			
-
+			statement.close();
+			con.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -380,7 +413,8 @@ public class CustomerDAOImpl implements CustomerDAO {
 			rows = statement.executeUpdate();
 			System.out.println(rows + " transaction added to database");
 			
-
+			statement.close();
+			con.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
