@@ -7,9 +7,12 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.training.pms.model.Customer;
 import com.training.pms.model.Employee;
+import com.training.pms.model.Login;
 import com.training.pms.utility.DBConnection;
 
 public class CustomerDAOImpl implements CustomerDAO {
@@ -238,5 +241,64 @@ public class CustomerDAOImpl implements CustomerDAO {
 		return true;
 	}
 	*/
+
+	@Override
+	public Customer getValues(String username, String password) {
+		System.out.println("Searching for user with username : " + username);
+		List<Customer> customers = new ArrayList<Customer>();
+		Customer customer = new Customer();
+		PreparedStatement stat;
+
+		try {
+			stat = con.prepareStatement("select * from customers where username = ? and password = ? ");
+			stat.setString(1, username);
+			stat.setString(2, password);
+
+			ResultSet res = stat.executeQuery();
+
+			while (res.next()) {
+				customer = new Customer();
+				customer.setUserId(res.getInt(1));
+				customer.setAccountName(res.getString(2));
+				customer.setUsername(res.getString(3));
+				customer.setPassword(res.getString(4));
+				customer.setBalance(res.getInt(5));
+				customer.setAccounttype(res.getString(6));
+				customers.add(customer);
+				
+				System.out.println("USER ID : "+customer.getUserId());
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		/*
+		if(logins.size() == 0) {
+			return false;
+		}
+		*/
+		return customer;
+	}
+
+	@Override
+	public boolean depositIntoAccount(String username, int amount) {
+		CallableStatement stat;
+		try {
+			stat = con.prepareCall("call deposit(?,?)");
+			System.out.println(username);
+			stat.setString(1, username);
+			stat.setInt(2, amount);
+
+			stat.execute();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;
+		}
+
+		System.out.println("Deposit done/completed");
+		
+		return true;
+	}
 
 }

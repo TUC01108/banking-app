@@ -14,4 +14,7 @@ public interface CustomerDAO {
 	public boolean isUserExists(int userId);
 	//public boolean withdrawalFromAccount(Customer customer, int amount);
 	
+	public Customer getValues(String username, String password);
+	public boolean depositIntoAccount(String username, int amount);
+	
 }

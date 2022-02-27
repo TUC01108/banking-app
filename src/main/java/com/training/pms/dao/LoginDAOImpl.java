@@ -18,15 +18,15 @@ public class LoginDAOImpl implements LoginDAO {
 	Connection con = DBConnection.getConnection();
 
 	@Override
-	public boolean register(Login login, Customer customer, Employee employee, String accounttype, int balance) {
-		System.out.println("Adding user : " + login);
+	public boolean register(Login login, Customer customer, Employee employee, String accounttype, int balance, String firstname) {
+		System.out.println("Adding user : " + firstname);
 		PreparedStatement statement = null;
 		int rows = 0;
 
 		try {
 			if(accounttype.equalsIgnoreCase("C")) {
 			statement = con.prepareStatement("insert into customers values(default,?,?,?,?,default)");
-			statement.setString(1, "bobby");
+			statement.setString(1, firstname);
 			statement.setString(2, login.getUsername());
 			statement.setString(3, login.getPassword());
 			statement.setInt(4, balance);
@@ -41,11 +41,10 @@ public class LoginDAOImpl implements LoginDAO {
 			rows = statement.executeUpdate();
 			System.out.println(rows + " user registered successfully");
 			} else {
-				statement = con.prepareStatement("insert into employees values(default,?,?,?,?,default)");
-				statement.setString(1, "bobby");
+				statement = con.prepareStatement("insert into employees values(default,?,?,?,default)");
+				statement.setString(1, firstname);
 				statement.setString(2, login.getUsername());
 				statement.setString(3, login.getPassword());
-				statement.setInt(4, balance);
 				rows = statement.executeUpdate();
 				System.out.println(rows + " employee added to database");
 				
@@ -70,8 +69,10 @@ public class LoginDAOImpl implements LoginDAO {
 
 	@Override
 	public boolean validate(String username, String password) {
+		
 		System.out.println("Searching for user with username : " + username);
 		List<Login> logins = new ArrayList<Login>();
+		Login login = new Login();
 		PreparedStatement stat;
 
 		try {
@@ -82,9 +83,10 @@ public class LoginDAOImpl implements LoginDAO {
 			ResultSet res = stat.executeQuery();
 
 			while (res.next()) {
-				Login login = new Login();
-				login.setUsername(res.getString(1));
-				login.setPassword(res.getString(2));
+				login = new Login();
+				login.setUserId(res.getInt(1));
+				login.setUsername(res.getString(2));
+				login.setPassword(res.getString(3));
 				logins.add(login);
 				
 				System.out.println("USER ID : "+login.getUserId());
@@ -93,11 +95,11 @@ public class LoginDAOImpl implements LoginDAO {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		//return products;
 		
 		if(logins.size() == 0) {
 			return false;
 		}
+		
 		return true;
 	}
 	
@@ -119,10 +121,10 @@ public class LoginDAOImpl implements LoginDAO {
 	}
 	
 	@Override
-	public boolean withdrawalFromAccount(String username, int amount) {
+	public boolean withdrawFromAccount(String username, int amount) {
 		CallableStatement stat;
 		try {
-			stat = con.prepareCall("call withdrawal(?,?)");
+			stat = con.prepareCall("call withdraw(?,?)");
 			System.out.println(username);
 			stat.setString(1, username);
 			stat.setInt(2, amount);
@@ -134,7 +136,7 @@ public class LoginDAOImpl implements LoginDAO {
 			return false;
 		}
 
-		System.out.println("Transfer done/completed");
+		System.out.println("Withdraw done/completed");
 		
 		return true;
 	}
