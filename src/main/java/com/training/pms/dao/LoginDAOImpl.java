@@ -93,7 +93,6 @@ public class LoginDAOImpl implements LoginDAO {
 				login.setPassword(res.getString(3));
 				logins.add(login);
 				
-				//System.out.println("USER ID for login object : "+login.getUserId());
 			}
 			
 			res.close();

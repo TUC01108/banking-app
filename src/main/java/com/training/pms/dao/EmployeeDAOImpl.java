@@ -46,37 +46,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 		return false;
 
 	}
-
-	@Override
-	public boolean updateUser(Employee employee) {
-		con = DBConnection.getConnection();
-		System.out.println("Updating account : "+employee);
-		PreparedStatement statement = null;
-		int rows = 0;
-		/*
-		try {
-			statement = con.prepareStatement(
-					"update user set user = ?, quantityonhand = ?, price = ? where productId = ?");
-
-			statement.setString(1, product.getProductName());
-			statement.setInt(2, product.getQuantityOnHand());
-			statement.setInt(3, product.getPrice());
-			statement.setInt(4, product.getProductId());
-
-			rows = statement.executeUpdate();
-			System.out.println(rows + " updated successfully");
-
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		*/
-		if (rows == 0)
-			return false;
-		else
-			return true;
-		
-	}
+	
 	
 	@Override
 	public boolean deleteUser(String username) {
@@ -191,52 +161,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 		}
 		
 	}
-
-	@Override
-	public void searchUsersByBalance(int lowerAmount, int upperAmount) {
-		con = DBConnection.getConnection();
-		System.out.println("Searching users with balances between :"+lowerAmount+" and "+upperAmount);
-		PreparedStatement stat;
-		try {
-			//Statement stat = con.createStatement();
-			
-			stat = con.prepareStatement("select * from users where balance between ? and ?");
-			stat.setInt(1, lowerAmount);
-			stat.setInt(2, upperAmount);
-			ResultSet res = stat.executeQuery();
-
-			// Retrieve the column information
-			ResultSetMetaData rsmd = res.getMetaData();
-			int columnCount = rsmd.getColumnCount();
-
-			// printing the column names
-			for (int i = 1; i <= columnCount; i++) {
-				System.out.print(rsmd.getColumnName(i) + "    ");
-			}
-			System.out.println();
-
-			// takes the cursor to the next row
-			// returns false if no record is there
-			while (res.next()) {
-
-				// printing all the values of the table
-				for (int i = 1; i <= columnCount; i++) {
-					System.out.print(res.getString(i) + "    ");
-				}
-				System.out.println();
-			}
-			
-			res.close();
-			stat.close();
-			con.close();
-
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-	}
-
+	
 	@Override
 	public boolean isUserExists(int userId) {
 		con = DBConnection.getConnection();
@@ -329,5 +254,83 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 		}
 		return transactions;
 	}
+	
+	/*
+	@Override
+	public boolean updateUser(Employee employee) {
+		con = DBConnection.getConnection();
+		System.out.println("Updating account : "+employee);
+		PreparedStatement statement = null;
+		int rows = 0;
+		/*
+		try {
+			statement = con.prepareStatement(
+					"update user set user = ?, quantityonhand = ?, price = ? where productId = ?");
+
+			statement.setString(1, product.getProductName());
+			statement.setInt(2, product.getQuantityOnHand());
+			statement.setInt(3, product.getPrice());
+			statement.setInt(4, product.getProductId());
+
+			rows = statement.executeUpdate();
+			System.out.println(rows + " updated successfully");
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		if (rows == 0)
+			return false;
+		else
+			return true;
+		
+	}
+	
+	@Override
+	public void searchUsersByBalance(int lowerAmount, int upperAmount) {
+		con = DBConnection.getConnection();
+		System.out.println("Searching users with balances between :"+lowerAmount+" and "+upperAmount);
+		PreparedStatement stat;
+		try {
+			//Statement stat = con.createStatement();
+			
+			stat = con.prepareStatement("select * from users where balance between ? and ?");
+			stat.setInt(1, lowerAmount);
+			stat.setInt(2, upperAmount);
+			ResultSet res = stat.executeQuery();
+
+			// Retrieve the column information
+			ResultSetMetaData rsmd = res.getMetaData();
+			int columnCount = rsmd.getColumnCount();
+
+			// printing the column names
+			for (int i = 1; i <= columnCount; i++) {
+				System.out.print(rsmd.getColumnName(i) + "    ");
+			}
+			System.out.println();
+
+			// takes the cursor to the next row
+			// returns false if no record is there
+			while (res.next()) {
+
+				// printing all the values of the table
+				for (int i = 1; i <= columnCount; i++) {
+					System.out.print(res.getString(i) + "    ");
+				}
+				System.out.println();
+			}
+			
+			res.close();
+			stat.close();
+			con.close();
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	*/
 
 }

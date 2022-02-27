@@ -8,17 +8,15 @@ import com.training.pms.model.Transactions;
 
 public interface EmployeeDAO {
 	public boolean addUser(Employee employee);
-	public boolean updateUser(Employee employee);
-	
 	public boolean deleteUser(String username);
-			
-	//public Employee searchByUserId(int userId);
 	public List<Customer> searchByUsername(String username);
 	public void printAllUsers();
-	public void searchUsersByBalance(int lowerAmount, int upperAmount);
 	public boolean isUserExists(int userId);
-	
 	public Employee getValues(String username, String password);
 	public List<Transactions> getTransactions();
+	
+	//public boolean updateUser(Employee employee);
+		//public Employee searchByUserId(int userId);
+	//public void searchUsersByBalance(int lowerAmount, int upperAmount);
 	
 }

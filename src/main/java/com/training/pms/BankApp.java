@@ -38,7 +38,6 @@ public class BankApp {
 		String accounttype = null;
 		String firstname = null;
 		boolean notValid = true;
-		List<Login> logins = new ArrayList<Login>();
 		List<Customer> customers = new ArrayList<Customer>();
 
 		long amount = 0;
