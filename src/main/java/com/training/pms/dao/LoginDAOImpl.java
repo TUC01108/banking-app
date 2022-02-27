@@ -89,7 +89,7 @@ public class LoginDAOImpl implements LoginDAO {
 				login.setPassword(res.getString(3));
 				logins.add(login);
 				
-				System.out.println("USER ID for login object : "+login.getUserId());
+				//System.out.println("USER ID for login object : "+login.getUserId());
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

@@ -1,7 +1,9 @@
 package com.training.pms.dao;
 
-import com.training.pms.model.Customer;
+import java.util.List;
+
 import com.training.pms.model.Employee;
+import com.training.pms.model.Transactions;
 
 public interface EmployeeDAO {
 	public boolean addUser(Employee employee);
@@ -14,5 +16,6 @@ public interface EmployeeDAO {
 	public boolean isUserExists(int userId);
 	
 	public Employee getValues(String username, String password);
+	public List<Transactions> getTransactions();
 	
 }

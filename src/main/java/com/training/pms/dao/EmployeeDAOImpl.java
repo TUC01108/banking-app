@@ -11,6 +11,7 @@ import java.util.List;
 
 import com.training.pms.model.Customer;
 import com.training.pms.model.Employee;
+import com.training.pms.model.Transactions;
 import com.training.pms.utility.DBConnection;
 
 public class EmployeeDAOImpl implements EmployeeDAO {
@@ -256,6 +257,29 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 		}
 		*/
 		return employee;
+	}
+
+	@Override
+	public List<Transactions> getTransactions() {
+		System.out.println("Getting log of all transactions");
+		List<Transactions> transactions = new ArrayList<Transactions>();
+		
+		Statement stat;
+		try {
+			stat = con.createStatement();
+			ResultSet res = stat.executeQuery("select * from transactions");
+			while(res.next()) {
+				Transactions transaction = new Transactions();
+				transaction.setReceiver(res.getString(1));
+				transaction.setSender(res.getString(2));
+				transaction.setAmount(res.getLong(3));
+				transaction.setTransactiontime(res.getTimestamp(4));
+				transactions.add(transaction);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return transactions;
 	}
 
 }

@@ -344,6 +344,30 @@ public class CustomerDAOImpl implements CustomerDAO {
 	}
 	
 	@Override
+	public boolean addTransaction(Customer customer, long amount) {
+		PreparedStatement statement = null;
+		int rows = 0;
+
+		try {
+			statement = con.prepareStatement("insert into transactions values(?,?,?,default)");
+			statement.setString(1, customer.getUsername());
+			statement.setString(2, "null");
+			statement.setLong(3, amount);
+			rows = statement.executeUpdate();
+			System.out.println(rows + " transaction added to database");
+			
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		if (rows == 0)
+			return false;
+		else
+			return true;
+	}
+	
+	@Override
 	public boolean addTransaction(Customer customer, String receiver, long amount) {
 		PreparedStatement statement = null;
 		int rows = 0;

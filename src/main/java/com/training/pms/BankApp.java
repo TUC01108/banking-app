@@ -2,6 +2,7 @@ package com.training.pms;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
 
@@ -12,7 +13,7 @@ import com.training.pms.dao.CustomerDAOImpl;
 import com.training.pms.dao.EmployeeDAO;
 import com.training.pms.dao.EmployeeDAOImpl;
 import com.training.pms.model.Login;
-
+import com.training.pms.model.Transactions;
 import com.training.pms.model.Customer;
 import com.training.pms.model.Employee;
 
@@ -43,6 +44,7 @@ public class BankApp {
 		long amount = 0;
 		boolean isValidTransfer = true;
 		boolean isValidAdd = true;
+		List<Transactions> transaction = new ArrayList<Transactions>();
 
 		while (true) {
 			System.out.println("=========================================");
@@ -130,8 +132,15 @@ public class BankApp {
 						case 3:
 							// Withdrawal from account section
 							System.out.println("VIEW LOG OF ALL TRANSACTIONS SECTION");
-
+							transaction = employeeDAO.getTransactions();
+							if (transaction.size()==0) {
+								System.out.println("No transactions");
+								continue;
+							}
+							
+							printTransactionDetails(transaction);
 							break;
+
 						case 9:
 							System.out.println("Thanks for using my bank app!");
 							System.exit(0);
@@ -179,6 +188,8 @@ public class BankApp {
 							// System.out.println("Username is : " + username);
 							// System.out.println("UserId is : " + userId);
 							boolean isValidWithdraw = customerDAO.withdrawFromAccount(username, amount);
+							
+							isValidAdd = customerDAO.addTransaction(customer, -(amount));
 
 							if (!isValidWithdraw) {
 								System.out.println("Withdraw was unsuccessful. Try again");
@@ -188,6 +199,7 @@ public class BankApp {
 							System.out.println("Account was credited : " + amount);
 							customer = customerDAO.getValues(username, password);
 							break;
+							
 						case 2:
 							// DEPOSIT TO account section
 							System.out.println("WELCOME TO DEPOSIT TO ACCOUNT SECTION");
@@ -196,6 +208,8 @@ public class BankApp {
 							// System.out.println("Username is : " + username);
 							// System.out.println("UserId is : " + userId);
 							boolean isValidDeposit = customerDAO.depositIntoAccount(username, amount);
+							
+							isValidAdd = customerDAO.addTransaction(customer, amount);
 
 							if (!isValidDeposit) {
 								System.out.println("Deposit was unsuccessful. Try again");
@@ -361,5 +375,14 @@ public class BankApp {
 				break;
 			}
 		}
+	}
+	
+	public void printTransactionDetails(List<Transactions> transaction) {
+		Iterator<Transactions> iterator = transaction.iterator();
+		while(iterator.hasNext()) {
+			Transactions temp = iterator.next();
+			System.out.println(temp);
+		}
+		
 	}
 }
