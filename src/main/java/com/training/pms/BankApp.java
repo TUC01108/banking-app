@@ -63,7 +63,7 @@ public class BankApp {
 				do {
 					System.out.println("Please enter type of login (C - Customer /E - Employee) :");
 					accounttype = scanner.next();
-
+					accounttype = accounttype.toUpperCase();
 					if (accounttype.equalsIgnoreCase("C") || accounttype.equalsIgnoreCase("E")) {
 						notValid = false;
 					}
@@ -83,6 +83,7 @@ public class BankApp {
 
 				if (!isValidLogin) {
 					System.out.println("Incorrect username or password. Try again");
+					accounttype = null;
 					continue;
 				}
 
@@ -97,8 +98,8 @@ public class BankApp {
 				// USER IS LOGGED IN
 
 				// Divide into CUSTOMER and EMPLOYEE FUNCTIONALITY
-
-				if (employee.getAccounttype().equals("E")) {
+				System.out.println("account type is : "+accounttype);
+				if (accounttype.equalsIgnoreCase("E")) {
 					
 					while (true) {
 						System.out.println("=========================================");
@@ -139,7 +140,7 @@ public class BankApp {
 					}
 				}
 
-				else if (customer.getAccounttype().equals("C")) {
+				else if (accounttype.equals("C")) {
 
 					while (true) {
 						System.out.println("=========================================");
@@ -228,6 +229,8 @@ public class BankApp {
 							break;
 						}
 					}
+				} else {
+					System.out.println("NOT A VALID ACCOUNT TYPE");
 				}
 			case 2:
 				// create account section
