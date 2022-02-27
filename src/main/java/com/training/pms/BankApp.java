@@ -31,7 +31,6 @@ public class BankApp {
 
 		// declaring local variables for input
 		int userId = 0;
-		String accountName = null;
 		String username = null;
 		String password = null;
 		int balance = 0;
@@ -80,7 +79,7 @@ public class BankApp {
 				String receiver;
 
 				// login = new Login(userId, username, password);
-				System.out.println("LOGIN object : " + login);
+				//System.out.println("LOGIN object : " + login);
 
 				if (!isValidLogin) {
 					System.out.println("Incorrect username or password. Try again");
@@ -88,25 +87,63 @@ public class BankApp {
 				}
 
 				customer = customerDAO.getValues(username, password);
+				employee = employeeDAO.getValues(username, password);
+				/*
 				System.out.println("CUSTOMER object : " + customer);
-
+				System.out.println("EMPLOYEE object : " + employee);
+				*/
 				System.out.println("Welcome, " + username);
 
 				// USER IS LOGGED IN
 
 				// Divide into CUSTOMER and EMPLOYEE FUNCTIONALITY
 
-				if (employee.getAccounttype().equals('E')) {
+				if (employee.getAccounttype().equals("E")) {
+					
+					while (true) {
+						System.out.println("=========================================");
+						System.out.println(employee.getFirstname().toUpperCase() + "\'S B A N K I N G      -    APP    MENU");
+						System.out.println("1. Approve or Reject Accounts ");
+						System.out.println("2. View Customers Bank Account By Name ");
+						System.out.println("3. View Log of All Transactions ");
+						System.out.println("9. E X I T ");
+						System.out.println("=========================================");
+						System.out.println("Please enter your choice : ");
+						choice = scanner.nextInt();
 
-					System.out.println("SUCCESFULLY Signed in as employee");
+						switch (choice) {
+						case 1:
+							// Withdrawal from account section
+							System.out.println("APPROVE OR REJECT ACCOUNTS SECTION");
+							
+							break;
+						case 2:
+							// Withdrawal from account section
+							System.out.println("VIEW CUSTOMERS ACCOUNTS SECTION");
+							
+							break;
+						case 3:
+							// Withdrawal from account section
+							System.out.println("VIEW LOG OF ALL TRANSACTIONS SECTION");
+							
+							break;
+						case 9:
+							System.out.println("Thanks for using my bank app!");
+							System.exit(0);
+							break;
+						default:
+							System.out.println("Invalid choice , Please enter (1-4) or 9 to EXIT");
+							break;
+						}
+
+					}
 				}
 
-				else if (customer.getAccounttype().equals('C')) {
+				else if (customer.getAccounttype().equals("C")) {
 
 					while (true) {
 						System.out.println("=========================================");
-						System.out.println(
-								customer.getAccountName().toUpperCase() + "\'s B A N K I N G      -    APP    MENU");
+						System.out.println(customer.getFirstname().toUpperCase() + "\'S B A N K I N G      -    APP    MENU");
 						System.out.println("1. Make Withdraw from Personal Account ");
 						System.out.println("2. Make Deposit to Personal Account ");
 						System.out.println("3. Deposit to Another Account ");

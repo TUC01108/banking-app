@@ -1,5 +1,6 @@
 package com.training.pms.dao;
 
+import com.training.pms.model.Customer;
 import com.training.pms.model.Employee;
 
 public interface EmployeeDAO {
@@ -11,5 +12,7 @@ public interface EmployeeDAO {
 	public void printAllUsers();
 	public void searchUsersByBalance(int lowerAmount, int upperAmount);
 	public boolean isUserExists(int userId);
+	
+	public Employee getValues(String username, String password);
 	
 }

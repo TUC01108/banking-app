@@ -15,9 +15,9 @@ public class Customer {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public Customer(int userId, String accountName, String username, String password, int balance, String accounttype) {
+	public Customer(int userId, String firstname, String username, String password, int balance, String accounttype) {
 		this.userId = userId;
-		this.firstname = accountName;
+		this.firstname = firstname;
 		this.username = username;
 		this.password = password;
 		this.balance = balance;
@@ -36,12 +36,12 @@ public class Customer {
 		this.userId = userId;
 	}
 
-	public String getAccountName() {
+	public String getFirstname() {
 		return firstname;
 	}
 
-	public void setAccountName(String accountName) {
-		this.firstname = accountName;
+	public void setFirstname(String firstname) {
+		this.firstname = firstname;
 	}
 
 	public String getUsername() {
@@ -99,7 +99,7 @@ public class Customer {
 
 	@Override
 	public String toString() {
-		return "Bank [userId=" + userId + ", accountName=" + firstname + ", username=" + username + ", password="
+		return "Bank [userId=" + userId + ", firstname=" + firstname + ", username=" + username + ", password="
 				+ password + ", balance=" + balance + ", accounttype=" + accounttype + "]";
 	}
 

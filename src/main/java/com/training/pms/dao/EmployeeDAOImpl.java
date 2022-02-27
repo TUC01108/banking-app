@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.training.pms.model.Customer;
 import com.training.pms.model.Employee;
@@ -23,7 +25,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 			statement = con.prepareStatement("insert into users values(?,?,?,?,?)");
 
 			statement.setInt(1, employee.getUserId());
-			statement.setString(2, employee.getAccountName());
+			statement.setString(2, employee.getFirstname());
 			statement.setString(3, employee.getUsername());
 			statement.setString(4, employee.getPassword());
 			statement.setString(5, employee.getAccounttype());
@@ -217,6 +219,43 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 			e.printStackTrace();
 		}
 		return userExists;
+	}
+
+	@Override
+	public Employee getValues(String username, String password) {
+		System.out.println("Searching for employee with username : " + username);
+		List<Employee> employees = new ArrayList<Employee>();
+		Employee employee = new Employee();
+		PreparedStatement stat;
+
+		try {
+			stat = con.prepareStatement("select * from employees where username = ? and password = ? ");
+			stat.setString(1, username);
+			stat.setString(2, password);
+
+			ResultSet res = stat.executeQuery();
+
+			while (res.next()) {
+				employee = new Employee();
+				employee.setUserId(res.getInt(1));
+				employee.setFirstname(res.getString(2));
+				employee.setUsername(res.getString(3));
+				employee.setPassword(res.getString(4));
+				employee.setAccounttype(res.getString(5));
+				employees.add(employee);
+				
+				System.out.println("USER ID : "+employee.getUserId());
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		/*
+		if(logins.size() == 0) {
+			return false;
+		}
+		*/
+		return employee;
 	}
 
 }

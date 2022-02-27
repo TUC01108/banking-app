@@ -27,7 +27,7 @@ public class CustomerDAOImpl implements CustomerDAO {
 			statement = con.prepareStatement("insert into users values(?,?,?,?,?)");
 
 			statement.setInt(1, user.getUserId());
-			statement.setString(2, user.getAccountName());
+			statement.setString(2, user.getFirstname());
 			statement.setString(3, user.getUsername());
 			statement.setString(4, user.getPassword());
 			statement.setString(5, user.getAccounttype());
@@ -259,7 +259,7 @@ public class CustomerDAOImpl implements CustomerDAO {
 			while (res.next()) {
 				customer = new Customer();
 				customer.setUserId(res.getInt(1));
-				customer.setAccountName(res.getString(2));
+				customer.setFirstname(res.getString(2));
 				customer.setUsername(res.getString(3));
 				customer.setPassword(res.getString(4));
 				customer.setBalance(res.getInt(5));

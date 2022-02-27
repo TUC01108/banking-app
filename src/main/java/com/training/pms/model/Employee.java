@@ -8,19 +8,17 @@ public class Employee {
 	private String firstname;
 	private String username;
 	private String password;
-	private int balance;
 	private String accounttype;
 	
 	public Employee() {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public Employee(int userId, String accountName, String username, String password, int balance, String accounttype) {
+	public Employee(int userId, String firstname, String username, String password, String accounttype) {
 		this.userId = userId;
-		this.firstname = accountName;
+		this.firstname = firstname;
 		this.username = username;
 		this.password = password;
-		this.balance = balance;
 		this.accounttype = accounttype;
 	}
 
@@ -36,12 +34,12 @@ public class Employee {
 		this.userId = userId;
 	}
 
-	public String getAccountName() {
+	public String getFirstname() {
 		return firstname;
 	}
 
-	public void setAccountName(String accountName) {
-		this.firstname = accountName;
+	public void setFirstname(String firstname) {
+		this.firstname = firstname;
 	}
 
 	public String getUsername() {
@@ -60,13 +58,6 @@ public class Employee {
 		this.password = password;
 	}
 
-	public int getBalance() {
-		return balance;
-	}
-
-	public void setBalance(int balance) {
-		this.balance = balance;
-	}
 	
 	
 
@@ -80,7 +71,7 @@ public class Employee {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(firstname, accounttype, balance, password, userId, username);
+		return Objects.hash(accounttype, firstname, password, userId, username);
 	}
 
 	@Override
@@ -92,16 +83,18 @@ public class Employee {
 		if (getClass() != obj.getClass())
 			return false;
 		Employee other = (Employee) obj;
-		return Objects.equals(firstname, other.firstname) && Objects.equals(accounttype, other.accounttype)
-				&& balance == other.balance && Objects.equals(password, other.password) && userId == other.userId
+		return Objects.equals(accounttype, other.accounttype) && Objects.equals(firstname, other.firstname)
+				&& Objects.equals(password, other.password) && userId == other.userId
 				&& Objects.equals(username, other.username);
 	}
 
 	@Override
 	public String toString() {
-		return "Bank [userId=" + userId + ", accountName=" + firstname + ", username=" + username + ", password="
-				+ password + ", balance=" + balance + ", accounttype=" + accounttype + "]";
+		return "Employee [userId=" + userId + ", firstname=" + firstname + ", username=" + username + ", password="
+				+ password + ", accounttype=" + accounttype + "]";
 	}
+
+	
 
 
 }
