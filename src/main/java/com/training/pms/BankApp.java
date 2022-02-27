@@ -5,16 +5,16 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
 
-import com.training.pms.dao.LoginDAO;
-import com.training.pms.dao.LoginDAOImpl;
 import com.training.pms.dao.CustomerDAO;
 import com.training.pms.dao.CustomerDAOImpl;
 import com.training.pms.dao.EmployeeDAO;
 import com.training.pms.dao.EmployeeDAOImpl;
-import com.training.pms.model.Login;
-import com.training.pms.model.Transactions;
+import com.training.pms.dao.LoginDAO;
+import com.training.pms.dao.LoginDAOImpl;
 import com.training.pms.model.Customer;
 import com.training.pms.model.Employee;
+import com.training.pms.model.Login;
+import com.training.pms.model.Transactions;
 
 public class BankApp {
 	Scanner scanner = new Scanner(System.in);
@@ -39,6 +39,7 @@ public class BankApp {
 		String firstname = null;
 		boolean notValid = true;
 		List<Login> logins = new ArrayList<Login>();
+		List<Customer> customers = new ArrayList<Customer>();
 
 		long amount = 0;
 		boolean isValidTransfer = true;
@@ -106,8 +107,8 @@ public class BankApp {
 						System.out.println("=========================================");
 						System.out.println(
 								employee.getFirstname().toUpperCase() + "\'S B A N K I N G      -    APP    MENU");
-						System.out.println("[TO DO] 1. Approve or Reject Accounts ");
-						System.out.println("[TO DO] 2. View Customers Bank Account By Name ");
+						System.out.println("1. Approve or Reject Accounts ");
+						System.out.println("2. View Customers Bank Account By Name ");
 						System.out.println("3. View Log of All Transactions ");
 						System.out.println("9. E X I T ");
 						System.out.println("=========================================");
@@ -138,6 +139,15 @@ public class BankApp {
 						case 2:
 							// View customers accounts section
 							System.out.println("VIEW CUSTOMERS ACCOUNTS SECTION");
+							System.out.println("Please enter username to search : ");
+							username = scanner.next();
+							
+							customers = employeeDAO.searchByUsername(username);
+							if (customers.size()==0) {
+								System.out.println("No products matching your criteria");
+								continue;
+							}
+							printUsersDetails(customers);
 
 							break;
 						case 3:
@@ -390,6 +400,15 @@ public class BankApp {
 		Iterator<Transactions> iterator = transaction.iterator();
 		while(iterator.hasNext()) {
 			Transactions temp = iterator.next();
+			System.out.println(temp);
+		}
+		
+	}
+	
+	public void printUsersDetails(List<Customer> customers) {
+		Iterator<Customer> iterator = customers.iterator();
+		while(iterator.hasNext()) {
+			Customer temp = iterator.next();
 			System.out.println(temp);
 		}
 		

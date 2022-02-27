@@ -113,36 +113,28 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 	}
 
 	@Override
-	public void searchByUsername(String username) {
+	public List<Customer> searchByUsername(String username) {
 		con = DBConnection.getConnection();
 		System.out.println("Searching for account with account name : "+username);
-		
+		List<Customer> customers = new ArrayList<Customer>();
+		PreparedStatement stat = null;
 		try {
 			//Statement stat = con.createStatement();
-			PreparedStatement stat;
-			stat = con.prepareStatement("select * from account where accountName like ? ");
+			
+			stat = con.prepareStatement("select * from customers where username like ? ");
 			stat.setString(1, username);
 			ResultSet res = stat.executeQuery();
 
-			// Retrieve the column information
-			ResultSetMetaData rsmd = res.getMetaData();
-			int columnCount = rsmd.getColumnCount();
-
-			// printing the column names
-			for (int i = 1; i <= columnCount; i++) {
-				System.out.print(rsmd.getColumnName(i) + "    ");
-			}
-			System.out.println();
-
-			// takes the cursor to the next row
-			// returns false if no record is there
 			while (res.next()) {
 
-				// printing all the values of the table
-				for (int i = 1; i <= columnCount; i++) {
-					System.out.print(res.getString(i) + "    ");
-				}
-				System.out.println();
+				Customer customer = new Customer();
+				customer.setUserId(1);
+				customer.setFirstname(res.getString(2));
+				customer.setUsername(res.getString(3));
+				customer.setPassword(res.getString(4));
+				customer.setBalance(res.getLong(5));
+				customer.setAccounttype(res.getString(6));
+				customers.add(customer);
 			}
 			
 			res.close();
@@ -153,7 +145,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+		return customers;
 	}
 
 	@Override
