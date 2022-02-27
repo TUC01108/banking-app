@@ -18,6 +18,7 @@ public class CustomerDAOImpl implements CustomerDAO {
 	Connection con = DBConnection.getConnection();
 
 	public boolean addUser(Customer user) {
+		con = DBConnection.getConnection();
 		System.out.println("Adding account : " + user);
 		PreparedStatement statement = null;
 
@@ -47,6 +48,7 @@ public class CustomerDAOImpl implements CustomerDAO {
 
 	@Override
 	public boolean updateUser(Customer account) {
+		con = DBConnection.getConnection();
 		System.out.println("Updating account : " + account);
 		PreparedStatement statement = null;
 		int rows = 0;
@@ -72,22 +74,10 @@ public class CustomerDAOImpl implements CustomerDAO {
 
 	}
 
-	@Override
-	public boolean deleteUser(int userId) {
-		System.out.println("Deleting account with user_Id : " + userId);
-		return false;
-
-	}
-
-	@Override
-	public Customer searchByUserId(int userId) {
-		System.out.println("Searching for account with user__Id : " + userId);
-		return null;
-
-	}
 
 	@Override
 	public void searchByUsername(String username) {
+		con = DBConnection.getConnection();
 		System.out.println("Searching for account with account name : " + username);
 
 		try {
@@ -128,51 +118,9 @@ public class CustomerDAOImpl implements CustomerDAO {
 		}
 
 	}
-
-	@Override
-	public void printAllUsers() {
-		System.out.println("Printing all accounts ");
-
-		try {
-			Statement stat = con.createStatement();
-
-			// change to CORRECT table once created
-			ResultSet res = stat.executeQuery("select * from customers");
-
-			// Retrieve the column information
-			ResultSetMetaData rsmd = res.getMetaData();
-			int columnCount = rsmd.getColumnCount();
-
-			// printing the column names
-			for (int i = 1; i <= columnCount; i++) {
-				System.out.print(rsmd.getColumnName(i) + "    ");
-			}
-			System.out.println();
-
-			// takes the cursor to the next row
-			// returns false if no record is there
-			while (res.next()) {
-
-				// printing all the values of the table
-				for (int i = 1; i <= columnCount; i++) {
-					System.out.print(res.getString(i) + "    ");
-				}
-				System.out.println();
-			}
-			
-			res.close();
-			stat.close();
-			con.close();
-
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		
-
-	}
-
+	
+	
+	/*
 	@Override
 	public void searchUsersByBalance(int lowerAmount, int upperAmount) {
 		System.out.println("Searching users with balances between :" + lowerAmount + " and " + upperAmount);
@@ -216,53 +164,13 @@ public class CustomerDAOImpl implements CustomerDAO {
 		}
 
 	}
-
-	@Override
-	public boolean isUserExists(int userId) {
-		boolean userExists = false;
-		PreparedStatement stat;
-
-		try {
-			stat = con.prepareStatement("select * from users where user_Id = ? ");
-			stat.setInt(1, userId);
-
-			ResultSet res = stat.executeQuery();
-			userExists = res.next();
-			
-			res.close();
-			stat.close();
-			con.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return userExists;
-	}
-	/*
-	@Override
-	public boolean withdrawalFromAccount(Login login, int amount) {
-		CallableStatement stat;
-		try {
-			stat = con.prepareCall("call withdrawal(?,?)");
-			System.out.println(login.getUsername());
-			stat.setString(1, login.getUsername());
-			stat.setInt(2, amount);
-
-			stat.execute();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return false;
-		}
-
-		System.out.println("Transfer done/completed");
-		
-		return true;
-	}
+	
 	*/
+
 
 	@Override
 	public Customer getValues(String username, String password) {
+		con = DBConnection.getConnection();
 		//System.out.println("Searching for customer with username : " + username);
 		List<Customer> customers = new ArrayList<Customer>();
 		Customer customer = new Customer();
@@ -305,6 +213,7 @@ public class CustomerDAOImpl implements CustomerDAO {
 
 	@Override
 	public boolean withdrawFromAccount(String username, long amount) {
+		con = DBConnection.getConnection();
 		CallableStatement stat;
 		try {
 			stat = con.prepareCall("call withdraw(?,?)");
@@ -328,6 +237,7 @@ public class CustomerDAOImpl implements CustomerDAO {
 	
 	@Override
 	public boolean depositIntoAccount(String username, long amount) {
+		con = DBConnection.getConnection();
 		CallableStatement stat;
 		try {
 			stat = con.prepareCall("call deposit(?,?)");
@@ -352,6 +262,7 @@ public class CustomerDAOImpl implements CustomerDAO {
 
 	@Override
 	public boolean transferFromAccount(String sender, String receiver, long amount) {
+		con = DBConnection.getConnection();
 		CallableStatement stat;
 		try {
 			stat = con.prepareCall("call transfer(?,?,?)");
@@ -377,6 +288,7 @@ public class CustomerDAOImpl implements CustomerDAO {
 	
 	@Override
 	public boolean addTransaction(Customer customer, long amount) {
+		con = DBConnection.getConnection();
 		PreparedStatement statement = null;
 		int rows = 0;
 
@@ -402,6 +314,7 @@ public class CustomerDAOImpl implements CustomerDAO {
 	
 	@Override
 	public boolean addTransaction(Customer customer, String receiver, long amount) {
+		con = DBConnection.getConnection();
 		PreparedStatement statement = null;
 		int rows = 0;
 

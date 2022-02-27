@@ -118,8 +118,8 @@ public class BankApp {
 						case 1:
 							// Approve or reject accounts section
 							System.out.println("APPROVE OR REJECT ACCOUNTS SECTION");
-							customerDAO.printAllUsers();
-							System.out.println("Please enter username to delete :");
+							employeeDAO.printAllUsers();
+							System.out.println("\nPlease enter username to delete :");
 							username = scanner.next();
 							
 							if(loginDAO.isLoginExists(username))
@@ -132,6 +132,7 @@ public class BankApp {
 								System.out.println("Product with product id : "+username+ " does not exists, hence cannot be deleted");
 
 							}
+							
 
 							break;
 						case 2:
@@ -371,7 +372,7 @@ public class BankApp {
 			 break;
 			 
 			case 6:
-				customerDAO.printAllUsers();
+				//customerDAO.printAllUsers();
 				break;
 
 			case 9:

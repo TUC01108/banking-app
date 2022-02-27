@@ -19,6 +19,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 	Connection con = DBConnection.getConnection();
 
 	public boolean addUser(Employee employee) {
+		con = DBConnection.getConnection();
 		System.out.println("Adding account : "+employee);
 		PreparedStatement statement = null;
 
@@ -48,6 +49,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 
 	@Override
 	public boolean updateUser(Employee employee) {
+		con = DBConnection.getConnection();
 		System.out.println("Updating account : "+employee);
 		PreparedStatement statement = null;
 		int rows = 0;
@@ -75,30 +77,44 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 			return true;
 		
 	}
-
-	@Override
-	public boolean deleteUser(int userId) {
-		System.out.println("Deleting account with user_Id : "+userId);
-		return false;
-		
-	}
 	
 	@Override
 	public boolean deleteUser(String username) {
-		System.out.println("Deleting account with user_Id : "+username);
-		return false;
+		con = DBConnection.getConnection();
+		PreparedStatement stat = null;
+		System.out.println("Deleting account with username : "+username);
 		
-	}
+		int rows = 0;
+		try {
+			// delete from customers table
+			stat = con.prepareStatement("delete from customers where username = ?");
+			stat.setString(1, username);
+			rows = stat.executeUpdate();
+			System.out.println(rows + " deleted successfully");
+			
+			// delete from login table
+			stat= con.prepareStatement("delete from login where username = ?");
+			stat.setString(1, username);
+			rows = stat.executeUpdate();
+			
+			
+			stat.close();
+			con.close();
 
-	@Override
-	public Employee searchByUserId(int userId) {
-		System.out.println("Searching for account with user__Id : "+userId);
-		return null;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		if (rows == 0)
+			return false;
+		else
+			return true;
 		
 	}
 
 	@Override
 	public void searchByUsername(String username) {
+		con = DBConnection.getConnection();
 		System.out.println("Searching for account with account name : "+username);
 		
 		try {
@@ -142,13 +158,15 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 
 	@Override
 	public void printAllUsers() {
+		con = DBConnection.getConnection();
 		System.out.println("Printing all accounts ");
 		
 		try {
 			Statement stat = con.createStatement();
 			
+			
 			// change to CORRECT table once created
-			ResultSet res = stat.executeQuery("select * from users");
+			ResultSet res = stat.executeQuery("select * from customers");
 
 			// Retrieve the column information
 			ResultSetMetaData rsmd = res.getMetaData();
@@ -184,6 +202,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 
 	@Override
 	public void searchUsersByBalance(int lowerAmount, int upperAmount) {
+		con = DBConnection.getConnection();
 		System.out.println("Searching users with balances between :"+lowerAmount+" and "+upperAmount);
 		PreparedStatement stat;
 		try {
@@ -228,8 +247,9 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 
 	@Override
 	public boolean isUserExists(int userId) {
+		con = DBConnection.getConnection();
 		boolean userExists = false;
-		PreparedStatement stat;
+		PreparedStatement stat = null;
 		
 		try {
 			stat = con.prepareStatement("select * from users where user_Id = ? ");
@@ -250,10 +270,11 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 
 	@Override
 	public Employee getValues(String username, String password) {
-		//System.out.println("Searching for employee with username : " + username);
+		con = DBConnection.getConnection();
+		PreparedStatement stat = null;
 		List<Employee> employees = new ArrayList<Employee>();
 		Employee employee = new Employee();
-		PreparedStatement stat;
+		
 
 		try {
 			stat = con.prepareStatement("select * from employees where username = ? and password = ? ");
@@ -291,6 +312,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 
 	@Override
 	public List<Transactions> getTransactions() {
+		con = DBConnection.getConnection();
 		System.out.println("Getting log of all transactions");
 		List<Transactions> transactions = new ArrayList<Transactions>();
 		
