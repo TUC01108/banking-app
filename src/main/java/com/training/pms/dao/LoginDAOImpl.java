@@ -18,7 +18,7 @@ public class LoginDAOImpl implements LoginDAO {
 	Connection con = DBConnection.getConnection();
 
 	@Override
-	public boolean register(Login login, Customer customer, Employee employee, String accounttype, int balance, String firstname) {
+	public boolean register(Login login, Customer customer, Employee employee, String accounttype, long balance, String firstname) {
 		System.out.println("Adding user : " + firstname);
 		PreparedStatement statement = null;
 		int rows = 0;
@@ -29,7 +29,7 @@ public class LoginDAOImpl implements LoginDAO {
 			statement.setString(1, firstname);
 			statement.setString(2, login.getUsername());
 			statement.setString(3, login.getPassword());
-			statement.setInt(4, balance);
+			statement.setLong(4, balance);
 			rows = statement.executeUpdate();
 			System.out.println(rows + " customer added to database");
 			
@@ -89,7 +89,7 @@ public class LoginDAOImpl implements LoginDAO {
 				login.setPassword(res.getString(3));
 				logins.add(login);
 				
-				System.out.println("USER ID : "+login.getUserId());
+				System.out.println("USER ID for login object : "+login.getUserId());
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -118,49 +118,6 @@ public class LoginDAOImpl implements LoginDAO {
 			e.printStackTrace();
 		}
 		return loginExists;
-	}
-	
-	@Override
-	public boolean withdrawFromAccount(String username, int amount) {
-		CallableStatement stat;
-		try {
-			stat = con.prepareCall("call withdraw(?,?)");
-			System.out.println(username);
-			stat.setString(1, username);
-			stat.setInt(2, amount);
-
-			stat.execute();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return false;
-		}
-
-		System.out.println("Withdraw done/completed");
-		
-		return true;
-	}
-	
-	@Override
-	public boolean transferFromAccount(String username, String receiver, int amount) {
-		CallableStatement stat;
-		try {
-			stat = con.prepareCall("call transfer(?,?,?)");
-			System.out.println("sending->"+username+" : receiving->"+receiver);
-			stat.setString(1, username);
-			stat.setString(2, receiver);
-			stat.setInt(3, amount);
-
-			stat.execute();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return false;
-		}
-
-		System.out.println("Transfer done/completed");
-		
-		return true;
 	}
 
 	

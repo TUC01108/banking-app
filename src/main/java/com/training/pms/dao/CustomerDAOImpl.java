@@ -244,7 +244,7 @@ public class CustomerDAOImpl implements CustomerDAO {
 
 	@Override
 	public Customer getValues(String username, String password) {
-		System.out.println("Searching for user with username : " + username);
+		//System.out.println("Searching for customer with username : " + username);
 		List<Customer> customers = new ArrayList<Customer>();
 		Customer customer = new Customer();
 		PreparedStatement stat;
@@ -262,11 +262,11 @@ public class CustomerDAOImpl implements CustomerDAO {
 				customer.setFirstname(res.getString(2));
 				customer.setUsername(res.getString(3));
 				customer.setPassword(res.getString(4));
-				customer.setBalance(res.getInt(5));
+				customer.setBalance(res.getLong(5));
 				customer.setAccounttype(res.getString(6));
 				customers.add(customer);
 				
-				System.out.println("USER ID : "+customer.getUserId());
+				//System.out.println("USER ID customer object : "+customer.getUserId());
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -281,13 +281,33 @@ public class CustomerDAOImpl implements CustomerDAO {
 	}
 
 	@Override
-	public boolean depositIntoAccount(String username, int amount) {
+	public boolean withdrawFromAccount(String username, long amount) {
+		CallableStatement stat;
+		try {
+			stat = con.prepareCall("call withdraw(?,?)");
+			stat.setString(1, username);
+			stat.setLong(2, amount);
+
+			stat.execute();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;
+		}
+
+		System.out.println("Withdraw done/completed");
+		
+		return true;
+	}
+	
+	@Override
+	public boolean depositIntoAccount(String username, long amount) {
 		CallableStatement stat;
 		try {
 			stat = con.prepareCall("call deposit(?,?)");
-			System.out.println(username);
+			//System.out.println(username);
 			stat.setString(1, username);
-			stat.setInt(2, amount);
+			stat.setLong(2, amount);
 
 			stat.execute();
 		} catch (SQLException e) {
@@ -299,6 +319,52 @@ public class CustomerDAOImpl implements CustomerDAO {
 		System.out.println("Deposit done/completed");
 		
 		return true;
+	}
+
+	@Override
+	public boolean transferFromAccount(String sender, String receiver, long amount) {
+		CallableStatement stat;
+		try {
+			stat = con.prepareCall("call transfer(?,?,?)");
+			System.out.println("sending->"+sender+" : receiving->"+receiver);
+			stat.setString(1, sender);
+			stat.setString(2, receiver);
+			stat.setLong(3, amount);
+
+			stat.execute();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;
+		}
+
+		System.out.println("Transfer done/completed");
+		
+		return true;
+	}
+	
+	@Override
+	public boolean addTransaction(Customer customer, String receiver, long amount) {
+		PreparedStatement statement = null;
+		int rows = 0;
+
+		try {
+			statement = con.prepareStatement("insert into transactions values(?,?,?,default)");
+			statement.setString(1, customer.getUsername());
+			statement.setString(2, receiver);
+			statement.setLong(3, amount);
+			rows = statement.executeUpdate();
+			System.out.println(rows + " transaction added to database");
+			
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		if (rows == 0)
+			return false;
+		else
+			return true;
 	}
 
 }

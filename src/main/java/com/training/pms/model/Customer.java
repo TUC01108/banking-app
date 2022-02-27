@@ -8,7 +8,7 @@ public class Customer {
 	private String firstname;
 	private String username;
 	private String password;
-	private int balance;
+	private long balance;
 	private String accounttype;
 	
 	public Customer() {
@@ -60,12 +60,12 @@ public class Customer {
 		this.password = password;
 	}
 
-	public int getBalance() {
+	public long getBalance() {
 		return balance;
 	}
 
-	public void setBalance(int balance) {
-		this.balance = balance;
+	public void setBalance(long l) {
+		this.balance = l;
 	}
 	
 	

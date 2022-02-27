@@ -1,5 +1,6 @@
 package com.training.pms;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -33,14 +34,15 @@ public class BankApp {
 		int userId = 0;
 		String username = null;
 		String password = null;
-		int balance = 0;
+		long balance = 0;
 		String accounttype = null;
 		String firstname = null;
 		boolean notValid = true;
 		List<Login> logins = new ArrayList<Login>();
 
-		int amount;
-		boolean isValidTransfer;
+		long amount = 0;
+		boolean isValidTransfer = true;
+		boolean isValidAdd = true;
 
 		while (true) {
 			System.out.println("=========================================");
@@ -69,7 +71,7 @@ public class BankApp {
 					}
 				} while (notValid);
 				System.out.println("Selected valid account type");
-
+				System.out.println("=============================\n");
 				// take input from user to create an account
 				System.out.println("Please enter username: ");
 				username = scanner.next();
@@ -79,7 +81,7 @@ public class BankApp {
 				String receiver;
 
 				// login = new Login(userId, username, password);
-				//System.out.println("LOGIN object : " + login);
+				// System.out.println("LOGIN object : " + login);
 
 				if (!isValidLogin) {
 					System.out.println("Incorrect username or password. Try again");
@@ -90,20 +92,22 @@ public class BankApp {
 				customer = customerDAO.getValues(username, password);
 				employee = employeeDAO.getValues(username, password);
 				/*
-				System.out.println("CUSTOMER object : " + customer);
-				System.out.println("EMPLOYEE object : " + employee);
-				*/
+				 * System.out.println("CUSTOMER object : " + customer);
+				 * System.out.println("EMPLOYEE object : " + employee);
+				 */
 				System.out.println("Welcome, " + username);
 
 				// USER IS LOGGED IN
 
 				// Divide into CUSTOMER and EMPLOYEE FUNCTIONALITY
-				System.out.println("account type is : "+accounttype);
+
+				// System.out.println("account type is : "+accounttype);
 				if (accounttype.equalsIgnoreCase("E")) {
-					
+
 					while (true) {
 						System.out.println("=========================================");
-						System.out.println(employee.getFirstname().toUpperCase() + "\'S B A N K I N G      -    APP    MENU");
+						System.out.println(
+								employee.getFirstname().toUpperCase() + "\'S B A N K I N G      -    APP    MENU");
 						System.out.println("1. Approve or Reject Accounts ");
 						System.out.println("2. View Customers Bank Account By Name ");
 						System.out.println("3. View Log of All Transactions ");
@@ -116,17 +120,17 @@ public class BankApp {
 						case 1:
 							// Withdrawal from account section
 							System.out.println("APPROVE OR REJECT ACCOUNTS SECTION");
-							
+
 							break;
 						case 2:
 							// Withdrawal from account section
 							System.out.println("VIEW CUSTOMERS ACCOUNTS SECTION");
-							
+
 							break;
 						case 3:
 							// Withdrawal from account section
 							System.out.println("VIEW LOG OF ALL TRANSACTIONS SECTION");
-							
+
 							break;
 						case 9:
 							System.out.println("Thanks for using my bank app!");
@@ -140,16 +144,17 @@ public class BankApp {
 					}
 				}
 
-				else if (accounttype.equals("C")) {
+				else if (accounttype.equals("C") && customer.getFirstname() != null) {
 
 					while (true) {
 						System.out.println("=========================================");
-						System.out.println(customer.getFirstname().toUpperCase() + "\'S B A N K I N G      -    APP    MENU");
+						System.out.println(
+								customer.getFirstname().toUpperCase() + "\'S B A N K I N G      -    APP    MENU");
 						System.out.println("1. Make Withdraw from Personal Account ");
 						System.out.println("2. Make Deposit to Personal Account ");
 						System.out.println("3. Deposit to Another Account ");
-						System.out.println("4. Search Account By Name ");
-						System.out.println("5. Search Accounts by Account Balance(lower/upper");
+						// System.out.println("4. Search Account By Name ");
+						// System.out.println("5. Search Accounts by Account Balance(lower/upper");
 						System.out.println("9. E X I T ");
 						System.out.println("=========================================");
 						System.out.println("Please enter your choice : ");
@@ -157,13 +162,23 @@ public class BankApp {
 
 						switch (choice) {
 						case 1:
-							// Withdrawal from account section
+							// Withdraw from account section
 							System.out.println("WELCOME TO WITHDRAW FROM ACCOUNT SECTION");
-							System.out.println("Enter the amount to be withdrawn :");
-							amount = scanner.nextInt();
-							System.out.println("Username is : " + username);
-							System.out.println("UserId is : " + userId);
-							boolean isValidWithdraw = loginDAO.withdrawFromAccount(username, amount);
+							notValid = true;
+							while (notValid) {
+								System.out.println("Enter the amount to be withdrawn :");
+								amount = scanner.nextLong();
+								// System.out.println("amount"+amount);
+
+								if (amount <= customer.getBalance()) {
+
+									notValid = false;
+								} else
+									System.out.println("Cannot withdraw more than current balance");
+							}
+							// System.out.println("Username is : " + username);
+							// System.out.println("UserId is : " + userId);
+							boolean isValidWithdraw = customerDAO.withdrawFromAccount(username, amount);
 
 							if (!isValidWithdraw) {
 								System.out.println("Withdraw was unsuccessful. Try again");
@@ -171,14 +186,15 @@ public class BankApp {
 							}
 
 							System.out.println("Account was credited : " + amount);
+							customer = customerDAO.getValues(username, password);
 							break;
 						case 2:
 							// DEPOSIT TO account section
 							System.out.println("WELCOME TO DEPOSIT TO ACCOUNT SECTION");
 							System.out.println("Enter the amount to be deposited :");
-							amount = scanner.nextInt();
-							System.out.println("Username is : " + username);
-							System.out.println("UserId is : " + userId);
+							amount = scanner.nextLong();
+							// System.out.println("Username is : " + username);
+							// System.out.println("UserId is : " + userId);
 							boolean isValidDeposit = customerDAO.depositIntoAccount(username, amount);
 
 							if (!isValidDeposit) {
@@ -187,28 +203,50 @@ public class BankApp {
 							}
 
 							System.out.println("Account was debited : " + amount);
+							customer = customerDAO.getValues(username, password);
 							break;
 
 						case 3:
 							// DEPOSIT TO ANOTHER account section
 							System.out.println("WELCOME TO DEPOSIT TO ANOTHER ACCOUNT SECTION");
+							if (customer.getBalance() == 0) {
+								System.out.println("You don't have enough money to make a transfer.\n");
+								continue;
+							}
 							amount = 0;
-							System.out.println("Enter the amount to be transfered :");
-							amount = scanner.nextInt();
-							// String sender = username;
+
+							notValid = true;
+							while (notValid) {
+								System.out.println("Current customer balance : " + customer.getBalance());
+								System.out.println("Enter the amount to be transfered :");
+								amount = scanner.nextLong();
+
+								if (amount <= customer.getBalance() && amount > 0) {
+
+									notValid = false;
+								} else if (amount <= 0) {
+									System.out.println("Cannot transfer amount less than 1");
+								} else
+									System.out.println("Cannot transfer amount that is more than current balance");
+							}
+
 							System.out.println("Sender is : " + username);
 							System.out.println("Enter username you would like to transfer to : ");
-
 							receiver = scanner.next();
-							isValidTransfer = loginDAO.transferFromAccount(username, receiver, amount);
 
-							if (!isValidTransfer) {
-								System.out.println("Withdrawal was unsuccessful. Try again");
+							isValidTransfer = customerDAO.transferFromAccount(username, receiver, amount);
+							
+							isValidAdd = customerDAO.addTransaction(customer, receiver, amount);
+
+							if (!isValidTransfer || !isValidAdd) {
+								System.out.println("Transfer was unsuccessful. Try again");
 								continue;
 							}
 
-							System.out.println("Account was credited : " + amount);
+							System.out.println("Amount transfered : \n" + amount);
+							customer = customerDAO.getValues(username, password);
 							break;
+
 						case 4:
 							// SEARCH ACCOUNT BY NAME section
 							System.out.println("WELCOME TO SEARCH ACCOUNT BY NAME SECTION");
@@ -231,6 +269,8 @@ public class BankApp {
 					}
 				} else {
 					System.out.println("NOT A VALID ACCOUNT TYPE");
+					System.out.println("Thanks for using my bank app!");
+					System.exit(0);
 				}
 			case 2:
 				// create account section
@@ -267,7 +307,7 @@ public class BankApp {
 
 				if (accounttype.equalsIgnoreCase("C")) {
 					System.out.println("Please enter starting balance :");
-					balance = scanner.nextInt();
+					balance = scanner.nextLong();
 				}
 
 				login = new Login(userId, username, password);

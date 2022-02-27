@@ -223,7 +223,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 
 	@Override
 	public Employee getValues(String username, String password) {
-		System.out.println("Searching for employee with username : " + username);
+		//System.out.println("Searching for employee with username : " + username);
 		List<Employee> employees = new ArrayList<Employee>();
 		Employee employee = new Employee();
 		PreparedStatement stat;
@@ -244,7 +244,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 				employee.setAccounttype(res.getString(5));
 				employees.add(employee);
 				
-				System.out.println("USER ID : "+employee.getUserId());
+				System.out.println("USER ID from employee object : "+employee.getUserId());
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
