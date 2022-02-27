@@ -9,6 +9,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.training.pms.model.Applications;
 import com.training.pms.model.Customer;
 import com.training.pms.model.Employee;
 import com.training.pms.model.Transactions;
@@ -233,7 +234,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 		System.out.println("Getting log of all transactions");
 		List<Transactions> transactions = new ArrayList<Transactions>();
 		
-		Statement stat;
+		Statement stat = null;
 		try {
 			stat = con.createStatement();
 			ResultSet res = stat.executeQuery("select * from transactions");
@@ -253,6 +254,67 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 			e.printStackTrace();
 		}
 		return transactions;
+	}
+
+
+	@Override
+	public List<Applications> getAllApplications() {
+		con = DBConnection.getConnection();
+		Statement stat = null;
+		//ResultSet res = null;
+		System.out.println("Getting all applications ");
+		List<Applications> application = new ArrayList<Applications>();
+
+		try {
+			stat = con.createStatement();
+			ResultSet res = stat.executeQuery("select * from apply");
+			while (res.next()) {
+				Applications applications = new Applications();
+				applications.setUserId(res.getInt(1));
+				applications.setFirstname(res.getString(2));
+				applications.setUsername(res.getString(3));
+				applications.setPassword(res.getString(4));
+				applications.setBalance(res.getLong(5));
+				applications.setAccounttype(res.getString(6));
+				applications.setAccountName(res.getString(7));
+				application.add(applications);
+				
+				
+			}
+			res.close();
+			stat.close();
+			con.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return application;
+		
+	}
+
+
+	@Override
+	public boolean isApplyExists(int userId) {
+		con = DBConnection.getConnection();
+		boolean applyExists = false;
+		PreparedStatement stat = null;
+		//ResultSet res = null;
+		
+		try {
+			stat = con.prepareStatement("select * from apply where userid = ? ");
+			stat.setInt(1, userId);
+
+			ResultSet res = stat.executeQuery();
+			applyExists = res.next();
+			
+			res.close();
+			stat.close();
+			con.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return applyExists;
 	}
 	
 	/*

@@ -132,6 +132,38 @@ public class LoginDAOImpl implements LoginDAO {
 		return loginExists;
 	}
 
+	@Override
+	public boolean apply(Customer customer, long balance, String accountName) {
+		System.out.println("Applying for account by : " + customer.getFirstname());
+		PreparedStatement stat = null;
+		con = DBConnection.getConnection();
+		int rows = 0;
+
+		try {
+			stat = con.prepareStatement("insert into apply values(default,?,?,?,?,?,?)");
+			stat.setString(1, customer.getFirstname());
+			stat.setString(2, customer.getUsername());
+			stat.setString(3, customer.getPassword());
+			stat.setLong(4, balance);
+			stat.setString(5, customer.getAccounttype());
+			stat.setString(6, accountName);
+			rows = stat.executeUpdate();
+			System.out.println(rows + " account application added to database");
+			
+			
+			stat.close();
+			con.close();
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		if (rows == 0)
+			return false;
+		else
+			return true;
+	}
+
 	
 
 }

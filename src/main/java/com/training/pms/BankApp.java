@@ -11,6 +11,7 @@ import com.training.pms.dao.EmployeeDAO;
 import com.training.pms.dao.EmployeeDAOImpl;
 import com.training.pms.dao.LoginDAO;
 import com.training.pms.dao.LoginDAOImpl;
+import com.training.pms.model.Applications;
 import com.training.pms.model.Customer;
 import com.training.pms.model.Employee;
 import com.training.pms.model.Login;
@@ -44,6 +45,7 @@ public class BankApp {
 		boolean isValidAdd = true;
 		List<Customer> customers = new ArrayList<Customer>();
 		List<Transactions> transaction = new ArrayList<Transactions>();
+		List<Applications> application = new ArrayList<Applications>();
 		
 		while (true) {
 			System.out.println("=========================================");
@@ -106,31 +108,59 @@ public class BankApp {
 						System.out.println("1. Approve or Reject Accounts ");
 						System.out.println("2. View Customers Bank Account By Name ");
 						System.out.println("3. View Log of All Transactions ");
+						System.out.println("4. Delete a User ");
 						System.out.println("9. E X I T ");
 						System.out.println("=========================================");
 						System.out.println("Please enter your choice : ");
 						choice = scanner.nextInt();
 
+						
 						switch (choice) {
 						case 1:
 							// Approve or reject accounts section
 							System.out.println("APPROVE OR REJECT ACCOUNTS SECTION");
-							employeeDAO.printAllUsers();
-							System.out.println("\nPlease enter username to delete :");
-							username = scanner.next();
+							//employeeDAO.printAllUsers();
+							application = employeeDAO.getAllApplications();
+							userId = 0;
 							
-							if(loginDAO.isLoginExists(username))
-							{
-								employeeDAO.deleteUser(username);
-								System.out.println("Product with product id : "+username+ " deleted successfully");
-							}
-							else
-							{
-								System.out.println("Product with product id : "+username+ " does not exists, hence cannot be deleted");
+							if (application.size()==0) {
+								System.out.println("No applications to approve or reject");
+								continue;
+							} else {
+								printApplicationDetails(application);
+								System.out.println("Would you like to approve or decline any applications?");
+								// If approving do this
+								System.out.println("***Need to fix from here on.*** ");
+								System.out.println("If you'd like to approve an application type 1 if you'd like to decline then type 2");
+								choice = scanner.nextInt();
+								if(choice == 1) {
+									System.out.println("\nPlease enter userid to approve :");
+									userId = scanner.nextInt();}
+								else if (choice == 2) {
+									System.out.println("\nPlease enter a userid to delete :");
+									userId = scanner.nextInt();
+								} else {
+									System.out.println("You entered an incorrect option.");
+								}
+								
+								if(employeeDAO.isApplyExists(userId) && choice == 1)
+								{
+									//employeeDAO.approveApply(userid);
+									System.out.println("Application with user id : "+userId+ " approved successfully");
+								}
+								else if(employeeDAO.isApplyExists(userId) && choice == 2)
+								{
+									//employeeDAO.deleteApply(userid);
+									System.out.println("Application with user id : "+userId+ " deleted successfully");
+								}
+								else
+								{
+									System.out.println("Application with user id : "+userId+ " does not exist, hence cannot be approved/deleted");
 
+								}
 							}
 							
-
+							
 							break;
 						case 2:
 							// View customers accounts section
@@ -157,6 +187,23 @@ public class BankApp {
 							
 							printTransactionDetails(transaction);
 							break;
+						case 4:
+							//Delete user section
+							System.out.println("DELETE A USER SECTION");
+							employeeDAO.printAllUsers();
+							System.out.println("\nPlease enter username to delete :");
+							username = scanner.next();
+							
+							if(loginDAO.isLoginExists(username))
+							{
+								employeeDAO.deleteUser(username);
+								System.out.println("Product with product id : "+username+ " deleted successfully");
+							}
+							else
+							{
+								System.out.println("Product with product id : "+username+ " does not exists, hence cannot be deleted");
+
+							}
 
 						case 9:
 							System.out.println("Thanks for using my bank app!");
@@ -180,6 +227,8 @@ public class BankApp {
 						System.out.println("1. Make Withdraw from Personal Account ");
 						System.out.println("2. Make Deposit to Personal Account ");
 						System.out.println("3. Deposit to Another Account ");
+						System.out.println("4. Apply for an Account");
+						System.out.println("5. View Balance");
 						// System.out.println("4. Search Account By Name ");
 						// System.out.println("5. Search Accounts by Account Balance(lower/upper");
 						System.out.println("9. E X I T ");
@@ -280,14 +329,87 @@ public class BankApp {
 							System.out.println("Amount transfered : \n" + amount);
 							customer = customerDAO.getValues(username, password);
 							break;
-
+							
 						case 4:
+							// Apply for account section
+							System.out.println("WELCOME TO APPLY FOR ACCOUNT SECTION");
+							boolean validChoice = false;
+							String accountName = null;
+							
+							System.out.println("Please choose what type of account you'd like to apply for :");
+							while (!validChoice) {
+								System.out.println("1. Checking ");
+								System.out.println("2. Savings ");
+								System.out.println("3. Credit ");
+								System.out.println("9. E X I T ");
+								System.out.println("=========================================");
+								System.out.println("Please enter your choice : ");
+								choice = scanner.nextInt();
+								
+								
+								switch (choice) {
+								case 1:
+									System.out.println("Let's get your checking account approved.");
+									accountName = "Checking";
+									validChoice = true;
+									break;
+								case 2:
+									System.out.println("Let's get your savings account approved.");
+									accountName = "Savings";
+									validChoice = true;
+									break;
+								case 3:
+									System.out.println("Let's get your credit account approved.");
+									accountName = "Credit";
+									validChoice = true;
+									break;
+								case 9:
+									System.out.println("Thanks for using my Bank app!");
+									System.exit(0);
+									break;
+								default:
+									System.out.println("Please enter a valid choice");
+									break;
+								}
+							}
+							
+
+							System.out.println("Please enter password to confirm choice :");
+							password = scanner.next();
+
+							
+							System.out.println("Please enter starting balance :");
+							balance = scanner.nextLong();
+							
+
+							//login = new Login(userId, username, password);
+
+							boolean isValidApply = loginDAO.apply(customer, balance, accountName);
+
+							if (!isValidApply) {
+								System.out.println("The application process did not go through, please try again.");
+								continue;
+							}
+
+							System.out.println("Congrats, - " + username + " - you have applied for an account");
+
+							break;
+
+						case 5:
+							// View Balance Section
+							System.out.println("WELCOME TO VIEW BALANCE SECTION");
+							
+							System.out.println("\nCurrent customer balance : " + customer.getBalance()+"\n\n");
+
+							break;
+							
+						case 6:
 							// SEARCH ACCOUNT BY NAME section
 							System.out.println("WELCOME TO SEARCH ACCOUNT BY NAME SECTION");
 
 							break;
 
-						case 5:
+						case 7:
 							// SEARCH ACCOUNT BY ACCOUNT BALANCE section
 							System.out.println("WELCOME TO SEARCH ACCOUNTS BY BALANCE SECTION");
 
@@ -320,8 +442,6 @@ public class BankApp {
 						notValid = false;
 					}
 				} while (notValid);
-
-				System.out.println("Selected valid account type");
 
 				// take input from user to create an account
 				System.out.println("Please enter username :");
@@ -411,5 +531,13 @@ public class BankApp {
 			System.out.println(temp);
 		}
 		
+	}
+	
+	public void printApplicationDetails(List<Applications> application) {
+		Iterator<Applications> iterator = application.iterator();
+		while(iterator.hasNext()) {
+			Applications temp = iterator.next();
+			System.out.println(temp);
+		}
 	}
 }
