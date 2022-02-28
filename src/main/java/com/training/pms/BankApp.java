@@ -45,7 +45,6 @@ public class BankApp {
 		boolean isValidAdd = true;
 		List<Customer> customers = new ArrayList<Customer>();
 		List<Transactions> transaction = new ArrayList<Transactions>();
-		//List<Applications> application = new ArrayList<Applications>();
 		
 		while (true) {
 			System.out.println("=========================================");
@@ -135,9 +134,7 @@ public class BankApp {
 								System.out.println("You have "+customers.size()+" account(s) to approve or reject.\n");							
 								printApplicationDetails(customers);
 								System.out.println();
-								//System.out.println("Would you like to approve or decline any applications?");
-								// If approving do this
-								//System.out.println("***Need to fix from here on.*** ");
+								
 								System.out.println("If you'd like to approve an application type 1 if you'd like to decline then type 2");
 								choice = scanner.nextInt();
 								if(choice == 1) {
@@ -407,7 +404,7 @@ public class BankApp {
 							// View Balance Section
 							System.out.println("WELCOME TO VIEW BALANCE SECTION");
 							
-							System.out.println("\nCurrent customer balance : " + customer.getBalance()+"\n\n");
+							System.out.println("\nCurrent customer balance : " + customer.getBalance()+"\n");
 
 							break;
 							
