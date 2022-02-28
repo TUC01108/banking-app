@@ -316,6 +316,39 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 		}
 		return applyExists;
 	}
+
+
+	@Override
+	public boolean approveApply(int userId) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+
+	@Override
+	public boolean rejectApply(int userId) {
+		con = DBConnection.getConnection();
+		boolean applyExists = false;
+		PreparedStatement stat = null;
+		//ResultSet res = null;
+		
+		try {
+			stat = con.prepareStatement("delete from apply where userid = ? ");
+			stat.setInt(1, userId);
+
+			//ResultSet res = stat.executeQuery();
+			//applyExists = !res.next();
+			applyExists = true;
+			
+			//res.close();
+			stat.close();
+			con.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return applyExists;
+	}
 	
 	/*
 	@Override

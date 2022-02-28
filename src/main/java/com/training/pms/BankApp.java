@@ -127,10 +127,12 @@ public class BankApp {
 								System.out.println("No applications to approve or reject");
 								continue;
 							} else {
+								System.out.println("You have "+application.size()+" application(s) to approve or reject.\n");							
 								printApplicationDetails(application);
-								System.out.println("Would you like to approve or decline any applications?");
+								System.out.println();
+								//System.out.println("Would you like to approve or decline any applications?");
 								// If approving do this
-								System.out.println("***Need to fix from here on.*** ");
+								//System.out.println("***Need to fix from here on.*** ");
 								System.out.println("If you'd like to approve an application type 1 if you'd like to decline then type 2");
 								choice = scanner.nextInt();
 								if(choice == 1) {
@@ -150,7 +152,7 @@ public class BankApp {
 								}
 								else if(employeeDAO.isApplyExists(userId) && choice == 2)
 								{
-									//employeeDAO.deleteApply(userid);
+									employeeDAO.rejectApply(userId);
 									System.out.println("Application with user id : "+userId+ " deleted successfully");
 								}
 								else

@@ -17,8 +17,9 @@ public interface EmployeeDAO {
 	public Employee getValues(String username, String password);
 	public List<Transactions> getTransactions();
 	public boolean isApplyExists(int userId);
-	// public boolean deleteApply(int userId);
-	// public boolean approveApply(int userId);
+	public boolean approveApply(int userId);
+	public boolean rejectApply(int userId);
+	
 	
 	//public boolean updateUser(Employee employee);
 		//public Employee searchByUserId(int userId);
