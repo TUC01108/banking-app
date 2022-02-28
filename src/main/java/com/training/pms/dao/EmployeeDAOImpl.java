@@ -18,35 +18,6 @@ import com.training.pms.utility.DBConnection;
 public class EmployeeDAOImpl implements EmployeeDAO {
 	
 	Connection con = DBConnection.getConnection();
-
-	public boolean addUser(Employee employee) {
-		con = DBConnection.getConnection();
-		System.out.println("Adding account : "+employee);
-		PreparedStatement statement = null;
-
-		try {
-			statement = con.prepareStatement("insert into users values(?,?,?,?,?)");
-
-			statement.setInt(1, employee.getUserId());
-			statement.setString(2, employee.getFirstname());
-			statement.setString(3, employee.getUsername());
-			statement.setString(4, employee.getPassword());
-			statement.setString(5, employee.getAccounttype());
-
-			int rows = statement.executeUpdate();
-			System.out.println(rows + " added successfully");
-			
-			statement.close();
-			con.close();
-
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		//Change code above
-		return false;
-
-	}
 	
 	
 	@Override
@@ -258,26 +229,26 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 
 
 	@Override
-	public List<Applications> getAllApplications() {
+	public List<Customer> getAllApplications() {
 		con = DBConnection.getConnection();
 		Statement stat = null;
 		//ResultSet res = null;
 		System.out.println("Getting all applications ");
-		List<Applications> application = new ArrayList<Applications>();
+		List<Customer> customers = new ArrayList<Customer>();
 
 		try {
 			stat = con.createStatement();
-			ResultSet res = stat.executeQuery("select * from apply");
+			ResultSet res = stat.executeQuery("select * from customers where status = 'N' ");
 			while (res.next()) {
-				Applications applications = new Applications();
-				applications.setUserId(res.getInt(1));
-				applications.setFirstname(res.getString(2));
-				applications.setUsername(res.getString(3));
-				applications.setPassword(res.getString(4));
-				applications.setBalance(res.getLong(5));
-				applications.setAccounttype(res.getString(6));
-				applications.setAccountName(res.getString(7));
-				application.add(applications);
+				Customer customer = new Customer();
+				customer.setUserId(res.getInt(1));
+				customer.setFirstname(res.getString(2));
+				customer.setUsername(res.getString(3));
+				customer.setPassword(res.getString(4));
+				customer.setBalance(res.getLong(5));
+				customer.setAccounttype(res.getString(6));
+				customer.setStatus(res.getString(7));
+				customers.add(customer);
 				
 				
 			}
@@ -288,7 +259,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 			e.printStackTrace();
 		}
 		
-		return application;
+		return customers;
 		
 	}
 
@@ -301,7 +272,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 		//ResultSet res = null;
 		
 		try {
-			stat = con.prepareStatement("select * from apply where userid = ? ");
+			stat = con.prepareStatement("select * from customers where userid = ? ");
 			stat.setInt(1, userId);
 
 			ResultSet res = stat.executeQuery();
@@ -320,37 +291,84 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 
 	@Override
 	public boolean approveApply(int userId) {
-		// TODO Auto-generated method stub
-		return false;
+		con = DBConnection.getConnection();
+		PreparedStatement stat = null;
+		int rows = 0;
+		
+		try {
+			
+			stat = con.prepareStatement("update customers set status = 'Y' where userid = ? ");
+			stat.setInt(1, userId);
+
+			rows = stat.executeUpdate();
+			
+			stat.close();
+			con.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		if (rows == 0)
+			return false;
+		else
+			return true;
 	}
 
 
 	@Override
 	public boolean rejectApply(int userId) {
 		con = DBConnection.getConnection();
-		boolean applyExists = false;
 		PreparedStatement stat = null;
-		//ResultSet res = null;
+		int rows = 0;
 		
 		try {
-			stat = con.prepareStatement("delete from apply where userid = ? ");
+			stat = con.prepareStatement("delete from customers where userid = ? ");
 			stat.setInt(1, userId);
 
-			//ResultSet res = stat.executeQuery();
-			//applyExists = !res.next();
-			applyExists = true;
+			rows = stat.executeUpdate();
 			
-			//res.close();
 			stat.close();
 			con.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		if (rows == 0)
+			return false;
+		else
+			return true;
+	}
+	
+	/*
+	
+	public boolean addUser(Employee employee) {
+		con = DBConnection.getConnection();
+		System.out.println("Adding account : "+employee);
+		PreparedStatement statement = null;
+
+		try {
+			statement = con.prepareStatement("insert into users values(?,?,?,?,?)");
+
+			statement.setInt(1, employee.getUserId());
+			statement.setString(2, employee.getFirstname());
+			statement.setString(3, employee.getUsername());
+			statement.setString(4, employee.getPassword());
+			statement.setString(5, employee.getAccounttype());
+
+			int rows = statement.executeUpdate();
+			System.out.println(rows + " added successfully");
+			
+			statement.close();
+			con.close();
+
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return applyExists;
+		//Change code above
+		return false;
+
 	}
 	
-	/*
+	
 	@Override
 	public boolean updateUser(Employee employee) {
 		con = DBConnection.getConnection();

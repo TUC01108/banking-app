@@ -45,7 +45,7 @@ public class BankApp {
 		boolean isValidAdd = true;
 		List<Customer> customers = new ArrayList<Customer>();
 		List<Transactions> transaction = new ArrayList<Transactions>();
-		List<Applications> application = new ArrayList<Applications>();
+		//List<Applications> application = new ArrayList<Applications>();
 		
 		while (true) {
 			System.out.println("=========================================");
@@ -69,7 +69,7 @@ public class BankApp {
 					System.out.println("Please enter type of login (C - Customer /E - Employee) :");
 					accounttype = scanner.next();
 					accounttype = accounttype.toUpperCase();
-					if (accounttype.equalsIgnoreCase("C") || accounttype.equalsIgnoreCase("E")) {
+					if (accounttype.equals("C") || accounttype.equals("E")) {
 						notValid = false;
 					}
 				} while (notValid);
@@ -82,14 +82,19 @@ public class BankApp {
 				System.out.println("Please enter password: ");
 				password = scanner.next();
 				boolean isValidLogin = loginDAO.validate(username, password);
-
+				customer = customerDAO.getValues(username, password);
+				
 				if (!isValidLogin) {
-					System.out.println("Incorrect username or password. Try again");
+					if(customer.getStatus() != null && customer.getStatus().equals("N"))
+						System.out.println("Account has not yet been approved. Administrator will update in a timely manner.");
+					else
+						System.out.println("Incorrect username or password. Try again");
+					
 					accounttype = null;
 					continue;
 				}
 
-				customer = customerDAO.getValues(username, password);
+				
 				employee = employeeDAO.getValues(username, password);
 
 				System.out.println("Welcome, " + username);
@@ -120,15 +125,15 @@ public class BankApp {
 							// Approve or reject accounts section
 							System.out.println("APPROVE OR REJECT ACCOUNTS SECTION");
 							//employeeDAO.printAllUsers();
-							application = employeeDAO.getAllApplications();
+							customers = employeeDAO.getAllApplications();
 							userId = 0;
 							
-							if (application.size()==0) {
+							if (customers.size()==0) {
 								System.out.println("No applications to approve or reject");
 								continue;
 							} else {
-								System.out.println("You have "+application.size()+" application(s) to approve or reject.\n");							
-								printApplicationDetails(application);
+								System.out.println("You have "+customers.size()+" account(s) to approve or reject.\n");							
+								printApplicationDetails(customers);
 								System.out.println();
 								//System.out.println("Would you like to approve or decline any applications?");
 								// If approving do this
@@ -147,7 +152,8 @@ public class BankApp {
 								
 								if(employeeDAO.isApplyExists(userId) && choice == 1)
 								{
-									//employeeDAO.approveApply(userid);
+									customerDAO.getValues(username, password);
+									employeeDAO.approveApply(userId);
 									System.out.println("Application with user id : "+userId+ " approved successfully");
 								}
 								else if(employeeDAO.isApplyExists(userId) && choice == 2)
@@ -468,14 +474,16 @@ public class BankApp {
 
 				login = new Login(userId, username, password);
 
-				boolean isValidRegister = loginDAO.register(login, customer, employee, accounttype, balance, firstname);
+				boolean isValidRegister = loginDAO.register(username, password, accounttype, balance, firstname);
 
 				if (!isValidRegister) {
 					System.out.println("Username already exists, please try another.");
 					continue;
 				}
-
-				System.out.println("Congrats, - " + username + " - you are registered");
+				if(accounttype.equals("C")) {
+					System.out.println("Congrats, - " + username + " - your account got opened and is pending approval.");
+				} else
+					System.out.println("Congrats, - " + username + " - your account got opened.");
 
 				break;
 			
@@ -535,10 +543,10 @@ public class BankApp {
 		
 	}
 	
-	public void printApplicationDetails(List<Applications> application) {
-		Iterator<Applications> iterator = application.iterator();
+	public void printApplicationDetails(List<Customer> customers) {
+		Iterator<Customer> iterator = customers.iterator();
 		while(iterator.hasNext()) {
-			Applications temp = iterator.next();
+			Customer temp = iterator.next();
 			System.out.println(temp);
 		}
 	}

@@ -5,6 +5,7 @@ import com.training.pms.model.Customer;
 public interface CustomerDAO {
 	
 	public Customer getValues(String username, String password);
+	//public Customer getValuesById()
 	public boolean withdrawFromAccount(String username, long amount);
 	public boolean depositIntoAccount(String username, long amount);
 	public boolean transferFromAccount(String sender, String receiver, long amount);

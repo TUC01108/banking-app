@@ -38,6 +38,7 @@ public class CustomerDAOImpl implements CustomerDAO {
 				customer.setPassword(res.getString(4));
 				customer.setBalance(res.getLong(5));
 				customer.setAccounttype(res.getString(6));
+				customer.setStatus(res.getString(7));
 				customers.add(customer);
 				
 				//System.out.println("USER ID customer object : "+customer.getUserId());

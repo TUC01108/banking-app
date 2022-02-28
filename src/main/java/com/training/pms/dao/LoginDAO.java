@@ -6,7 +6,7 @@ import com.training.pms.model.Login;
 
 public interface LoginDAO {
 	
-	public boolean register(Login login, Customer customer, Employee employee, String accounttype, long balance, String firstname);
+	public boolean register(String username, String password, String accounttype, long balance, String firstname);
 	public boolean validate(String username, String password);
 	public boolean isLoginExists(String username);
 	public boolean apply(Customer customer, long balance, String accountName);
