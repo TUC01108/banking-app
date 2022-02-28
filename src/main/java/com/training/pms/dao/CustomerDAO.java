@@ -8,7 +8,7 @@ public interface CustomerDAO {
 	//public Customer getValuesById()
 	public boolean withdrawFromAccount(String username, long amount);
 	public boolean depositIntoAccount(String username, long amount);
-	public boolean transferFromAccount(String sender, String receiver, long amount);
+	public boolean transferFromAccount(String sender, String receiver, long amount, long senderBalance, long receiverBalance);
 	public boolean addTransaction(Customer customer, long amount);
 	public boolean addTransaction(Customer customer, String receiver, long amount);
 	public boolean isUserExists(String username);

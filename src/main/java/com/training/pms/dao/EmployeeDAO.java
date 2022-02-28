@@ -2,7 +2,6 @@ package com.training.pms.dao;
 
 import java.util.List;
 
-import com.training.pms.model.Applications;
 import com.training.pms.model.Customer;
 import com.training.pms.model.Employee;
 import com.training.pms.model.Transactions;

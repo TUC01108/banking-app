@@ -11,7 +11,6 @@ import com.training.pms.dao.EmployeeDAO;
 import com.training.pms.dao.EmployeeDAOImpl;
 import com.training.pms.dao.LoginDAO;
 import com.training.pms.dao.LoginDAOImpl;
-import com.training.pms.model.Applications;
 import com.training.pms.model.Customer;
 import com.training.pms.model.Employee;
 import com.training.pms.model.Login;
@@ -100,7 +99,7 @@ public class BankApp {
 
 				// USER IS LOGGED IN
 
-				// Divide into CUSTOMER and EMPLOYEE FUNCTIONALITY
+				// Divided into CUSTOMER and EMPLOYEE FUNCTIONALITY
 				
 				// EMPLOYEE MENU
 				if (accounttype.equalsIgnoreCase("E")) {
@@ -251,10 +250,12 @@ public class BankApp {
 								amount = scanner.nextLong();
 								// System.out.println("amount"+amount);
 
-								if (amount <= customer.getBalance()) {
+								if (amount <= customer.getBalance() && amount >= 0) {
 
 									notValid = false;
-								} else
+								} else if(amount < 0)
+									System.out.println("Amount cannot not be negative.");
+								else
 									System.out.println("Cannot withdraw more than current balance");
 							}
 							// System.out.println("Username is : " + username);
@@ -275,10 +276,19 @@ public class BankApp {
 						case 2:
 							// DEPOSIT TO account section
 							System.out.println("WELCOME TO DEPOSIT TO ACCOUNT SECTION");
-							System.out.println("Enter the amount to be deposited :");
-							amount = scanner.nextLong();
-							// System.out.println("Username is : " + username);
-							// System.out.println("UserId is : " + userId);
+							
+							notValid = true;
+							while (notValid) {
+								System.out.println("Enter the amount to be deposited :");
+								amount = scanner.nextLong();
+								// System.out.println("amount"+amount);
+
+								if (amount < 0)
+									System.out.println("Amount to deposit cannot not be negative.");
+								else 
+									notValid = false;
+							}
+							
 							boolean isValidDeposit = customerDAO.depositIntoAccount(username, amount);
 							
 							isValidAdd = customerDAO.addTransaction(customer, amount);
@@ -315,14 +325,23 @@ public class BankApp {
 								} else
 									System.out.println("Cannot transfer amount that is more than current balance");
 							}
-
+							int count = 0;
 							System.out.println("Sender is : " + username);
 							do {
+								if(count>0) {
+									System.out.println("Username is invalid, please try another.");
+									System.out.println("Type exit to quit.");
+								}
 							System.out.println("Enter username you would like to transfer to : ");
 							receiver = scanner.next();
+								if(receiver.equals("exit")) {
+									System.out.println("Thanks for using my bank app!");
+									System.exit(0);
+								}
+							count++;
 							} while (!customerDAO.isUserExists(receiver));
-
-							isValidTransfer = customerDAO.transferFromAccount(username, receiver, amount);
+							long receiverBalance = 0;
+							isValidTransfer = customerDAO.transferFromAccount(username, receiver, amount, balance, receiverBalance);
 							
 							isValidAdd = customerDAO.addTransaction(customer, receiver, amount);
 
@@ -331,7 +350,9 @@ public class BankApp {
 								continue;
 							}
 
-							System.out.println("Amount transfered : \n" + amount);
+							System.out.println("Amount transfered : " + amount);
+							System.out.println();
+							
 							customer = customerDAO.getValues(username, password);
 							break;
 							
@@ -443,7 +464,7 @@ public class BankApp {
 					accounttype = scanner.next();
 					accounttype = accounttype.toUpperCase();
 
-					if (accounttype.equalsIgnoreCase("C") || accounttype.equalsIgnoreCase("E")) {
+					if (accounttype.equals("C") || accounttype.equals("E")) {
 						notValid = false;
 					}
 				} while (notValid);
@@ -470,7 +491,10 @@ public class BankApp {
 				}
 
 				login = new Login(userId, username, password);
-
+				
+				// Can I create a Customer object without userId to pass object instead of variables?
+				
+				//customer = new Customer();
 				boolean isValidRegister = loginDAO.register(username, password, accounttype, balance, firstname);
 
 				if (!isValidRegister) {

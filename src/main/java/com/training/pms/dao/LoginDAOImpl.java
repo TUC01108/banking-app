@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.training.pms.model.Customer;
-import com.training.pms.model.Employee;
 import com.training.pms.model.Login;
 import com.training.pms.utility.DBConnection;
 

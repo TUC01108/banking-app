@@ -1,8 +1,6 @@
 package com.training.pms.dao;
 
 import com.training.pms.model.Customer;
-import com.training.pms.model.Employee;
-import com.training.pms.model.Login;
 
 public interface LoginDAO {
 	

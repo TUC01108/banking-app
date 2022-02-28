@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -109,17 +110,28 @@ public class CustomerDAOImpl implements CustomerDAO {
 	}
 
 	@Override
-	public boolean transferFromAccount(String sender, String receiver, long amount) {
+	public boolean transferFromAccount(String sender, String receiver, long amount, long senderBalance, long receiverBalance) {
 		con = DBConnection.getConnection();
 		CallableStatement stat;
+		//long debitorBalance=0;
+		//receiverBalance=0;
 		try {
-			stat = con.prepareCall("call transfer(?,?,?)");
+			stat = con.prepareCall("call transferAmountAndGetbalance(?,?,?,?,?)");
 			System.out.println("sending->"+sender+" : receiving->"+receiver);
 			stat.setString(1, sender);
 			stat.setString(2, receiver);
 			stat.setLong(3, amount);
+			
+			stat.registerOutParameter(4, Types.BIGINT);
+			stat.setLong(4, senderBalance);
+
+			stat.registerOutParameter(5, Types.BIGINT);
+			stat.setLong(5, receiverBalance);
 
 			stat.execute();
+			
+			senderBalance = stat.getLong(4);
+			receiverBalance = stat.getLong(5);
 			
 			stat.close();
 			con.close();
@@ -128,8 +140,12 @@ public class CustomerDAOImpl implements CustomerDAO {
 			e.printStackTrace();
 			return false;
 		}
+		
+		System.out.println("\nSender's new balance : "+senderBalance);
+		System.out.println("Receiver's new balance : "+receiverBalance);
+		System.out.println();
 
-		System.out.println("Transfer done/completed");
+		//System.out.println("Transfer done/completed");
 		
 		return true;
 	}
@@ -146,7 +162,7 @@ public class CustomerDAOImpl implements CustomerDAO {
 			statement.setString(2, "null");
 			statement.setLong(3, amount);
 			rows = statement.executeUpdate();
-			System.out.println(rows + " transaction added to database");
+			//System.out.println(rows + " transaction added to database");
 			
 			statement.close();
 			con.close();
@@ -172,7 +188,7 @@ public class CustomerDAOImpl implements CustomerDAO {
 			statement.setString(2, receiver);
 			statement.setLong(3, amount);
 			rows = statement.executeUpdate();
-			System.out.println(rows + " transaction added to database");
+			//System.out.println(rows + " transaction added to database");
 			
 			statement.close();
 			con.close();
@@ -193,7 +209,7 @@ public class CustomerDAOImpl implements CustomerDAO {
 		con = DBConnection.getConnection();
 
 		try {
-			stat = con.prepareStatement("select * from login where username = ? ");
+			stat = con.prepareStatement("select * from customers where username = ? ");
 			stat.setString(1, username);
 
 			ResultSet res = stat.executeQuery();

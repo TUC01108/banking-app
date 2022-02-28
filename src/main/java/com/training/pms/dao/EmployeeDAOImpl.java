@@ -9,7 +9,6 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.training.pms.model.Applications;
 import com.training.pms.model.Customer;
 import com.training.pms.model.Employee;
 import com.training.pms.model.Transactions;
