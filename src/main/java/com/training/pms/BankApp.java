@@ -61,7 +61,8 @@ public class BankApp {
 			case 1:
 				// login to account section
 				System.out.println("WELCOME TO ACCOUNT LOGIN SECTION");
-
+				notValid = true;
+				
 				// Confirm account type is of type customer or employee
 				do {
 					System.out.println("Please enter type of login (C - Customer /E - Employee) :");
@@ -451,8 +452,10 @@ public class BankApp {
 					}
 				} else {
 					System.out.println("NOT A VALID ACCOUNT TYPE");
-					System.out.println("Thanks for using my bank app!");
-					System.exit(0);
+					System.out.println("Please try again.");
+					break;
+					//System.out.println("Thanks for using my bank app!");
+					//System.exit(0);
 				}
 			case 2:
 				// create account section
