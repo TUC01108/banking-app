@@ -23,7 +23,7 @@ public class LoginDAOImpl implements LoginDAO {
 		int rows = 0;
 
 		try {
-			if(accounttype.equalsIgnoreCase("C")) {
+			if(accounttype.equals("C")) {
 			stat = con.prepareStatement("insert into customers values(default,?,?,?,?,default,default)");
 			stat.setString(1, firstname);
 			stat.setString(2, username);

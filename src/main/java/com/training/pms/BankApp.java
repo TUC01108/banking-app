@@ -68,6 +68,7 @@ public class BankApp {
 					System.out.println("Please enter type of login (C - Customer /E - Employee) :");
 					accounttype = scanner.next();
 					accounttype = accounttype.toUpperCase();
+					
 					if (accounttype.equals("C") || accounttype.equals("E")) {
 						notValid = false;
 					}
@@ -81,8 +82,9 @@ public class BankApp {
 				System.out.println("Please enter password: ");
 				password = scanner.next();
 				boolean isValidLogin = loginDAO.validate(username, password);
-				customer = customerDAO.getValues(username, password);
 				
+				customer = customerDAO.getValues(username, password);
+				employee = employeeDAO.getValues(username, password);
 				if (!isValidLogin) {
 					if(customer.getStatus() != null && customer.getStatus().equals("N"))
 						System.out.println("Account has not yet been approved. Administrator will update in a timely manner.");
@@ -94,17 +96,18 @@ public class BankApp {
 				}
 
 				
-				employee = employeeDAO.getValues(username, password);
 
-				System.out.println("Welcome, " + username);
+				
 
 				// USER IS LOGGED IN
 
 				// Divided into CUSTOMER and EMPLOYEE FUNCTIONALITY
 				
 				// EMPLOYEE MENU
-				if (accounttype.equalsIgnoreCase("E")) {
-
+				if (accounttype.equals("E")) {
+					
+					System.out.println("Welcome, " + username);
+					
 					while (true) {
 						System.out.println("=========================================");
 						System.out.println(
@@ -209,6 +212,9 @@ public class BankApp {
 								System.out.println("Product with product id : "+username+ " does not exists, hence cannot be deleted");
 
 							}
+						case 5:
+							employeeDAO.printAllUsers();
+							break;
 
 						case 9:
 							System.out.println("Thanks for using my bank app!");
@@ -224,7 +230,9 @@ public class BankApp {
 				
 				// CUSTOMER MENU
 				else if (accounttype.equals("C") && customer.getFirstname() != null) {
-
+					
+					System.out.println("Welcome, " + username);
+					
 					while (true) {
 						System.out.println("=========================================");
 						System.out.println(
@@ -240,7 +248,7 @@ public class BankApp {
 						System.out.println("=========================================");
 						System.out.println("Please enter your choice : ");
 						choice = scanner.nextInt();
-
+						
 						switch (choice) {
 						case 1:
 							// Withdraw from account section
@@ -451,8 +459,8 @@ public class BankApp {
 						}
 					}
 				} else {
-					System.out.println("NOT A VALID ACCOUNT TYPE");
-					System.out.println("Please try again.");
+					System.out.println("\nINVALID ACCOUNT TYPE for username chosen");
+					System.out.println("Please try again.\n");
 					break;
 					//System.out.println("Thanks for using my bank app!");
 					//System.exit(0);
@@ -488,12 +496,12 @@ public class BankApp {
 				System.out.println("Please enter first name :");
 				firstname = scanner.next();
 
-				if (accounttype.equalsIgnoreCase("C")) {
+				if (accounttype.equals("C")) {
 					System.out.println("Please enter starting balance :");
 					balance = scanner.nextLong();
 				}
 
-				login = new Login(userId, username, password);
+				//login = new Login(userId, username, password);
 				
 				// Can I create a Customer object without userId to pass object instead of variables?
 				
@@ -515,12 +523,12 @@ public class BankApp {
 			  
 			 // make withdraw section
 			 System.out.println("WELCOME TO KNOW MORE ABOUT BANKING APP SECTION ");
-			 System.out.println("TO DO: Fill in with information about how it was built.");
+			 System.out.println("•The Bank app is a console-based application that simulates banking operations.");
+			 System.out.println("•A customer can apply for an account, view their balance, and make withdrawals and deposits.");
+			 System.out.println("•An employee can approve or deny accounts and view account balances for their customers.");
 			 System.out.println();
-			 System.out.println();
-			 System.out.println();
-			 System.out.println();
-			 System.out.println();
+			 System.out.println("Languages: Java, SQL");
+			 System.out.println("Dependencies: postgres, JUnit 5/Jupiter");
 			 System.out.println();
 			 break;
 			  
@@ -530,7 +538,7 @@ public class BankApp {
 			 System.out.println("WELCOME TO Know About Developer SECTION ");
 			 System.out.println("Go to GITHUB HERE -> https://github.com/TUC01108");
 			 System.out.println();
-			 System.out.println();
+			 System.out.println("Edwin Thomas Winter");
 			 
 			 break;
 			 

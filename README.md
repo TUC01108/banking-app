@@ -6,7 +6,7 @@
 <li>An employee can approve or deny accounts and view account balances for their customers.</li></h2>
 <br />
 <h2>Languages: Java, SQL</h2>
-<h2>Dependencies: postgres, JUnit-Jupiter</h2>
+<h2>Dependencies: postgres, JUnit 5/Jupiter</h2>
 <br />
 <br />
 <h4>Edwin Thomas Winter</h1>

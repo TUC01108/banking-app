@@ -75,6 +75,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 				customer.setPassword(res.getString(4));
 				customer.setBalance(res.getLong(5));
 				customer.setAccounttype(res.getString(6));
+				customer.setStatus(res.getString(7));
 				customers.add(customer);
 			}
 			
@@ -180,7 +181,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 				employee.setAccounttype(res.getString(5));
 				employees.add(employee);
 				
-				System.out.println("USER ID from employee object : "+employee.getUserId());
+				//System.out.println("USER ID from employee object : "+employee.getUserId());
 			}
 			
 			res.close();
@@ -336,113 +337,4 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 			return true;
 	}
 	
-	/*
-	
-	public boolean addUser(Employee employee) {
-		con = DBConnection.getConnection();
-		System.out.println("Adding account : "+employee);
-		PreparedStatement statement = null;
-
-		try {
-			statement = con.prepareStatement("insert into users values(?,?,?,?,?)");
-
-			statement.setInt(1, employee.getUserId());
-			statement.setString(2, employee.getFirstname());
-			statement.setString(3, employee.getUsername());
-			statement.setString(4, employee.getPassword());
-			statement.setString(5, employee.getAccounttype());
-
-			int rows = statement.executeUpdate();
-			System.out.println(rows + " added successfully");
-			
-			statement.close();
-			con.close();
-
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		//Change code above
-		return false;
-
-	}
-	
-	
-	@Override
-	public boolean updateUser(Employee employee) {
-		con = DBConnection.getConnection();
-		System.out.println("Updating account : "+employee);
-		PreparedStatement statement = null;
-		int rows = 0;
-		/*
-		try {
-			statement = con.prepareStatement(
-					"update user set user = ?, quantityonhand = ?, price = ? where productId = ?");
-
-			statement.setString(1, product.getProductName());
-			statement.setInt(2, product.getQuantityOnHand());
-			statement.setInt(3, product.getPrice());
-			statement.setInt(4, product.getProductId());
-
-			rows = statement.executeUpdate();
-			System.out.println(rows + " updated successfully");
-
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		if (rows == 0)
-			return false;
-		else
-			return true;
-		
-	}
-	
-	@Override
-	public void searchUsersByBalance(int lowerAmount, int upperAmount) {
-		con = DBConnection.getConnection();
-		System.out.println("Searching users with balances between :"+lowerAmount+" and "+upperAmount);
-		PreparedStatement stat;
-		try {
-			//Statement stat = con.createStatement();
-			
-			stat = con.prepareStatement("select * from users where balance between ? and ?");
-			stat.setInt(1, lowerAmount);
-			stat.setInt(2, upperAmount);
-			ResultSet res = stat.executeQuery();
-
-			// Retrieve the column information
-			ResultSetMetaData rsmd = res.getMetaData();
-			int columnCount = rsmd.getColumnCount();
-
-			// printing the column names
-			for (int i = 1; i <= columnCount; i++) {
-				System.out.print(rsmd.getColumnName(i) + "    ");
-			}
-			System.out.println();
-
-			// takes the cursor to the next row
-			// returns false if no record is there
-			while (res.next()) {
-
-				// printing all the values of the table
-				for (int i = 1; i <= columnCount; i++) {
-					System.out.print(res.getString(i) + "    ");
-				}
-				System.out.println();
-			}
-			
-			res.close();
-			stat.close();
-			con.close();
-
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-	}
-	*/
-
 }

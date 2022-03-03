@@ -52,6 +52,8 @@ class LoginDAOImplTest {
 
 	@AfterEach
 	void tearDown() throws Exception {
+		employeeDAO.deleteUser(username);
+		
 	}
 
 	@Test
