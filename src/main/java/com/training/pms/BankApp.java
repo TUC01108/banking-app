@@ -1,6 +1,7 @@
 package com.training.pms;
 
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
@@ -59,13 +60,14 @@ public class BankApp {
 			// Confirm choice is integer
 
 			boolean flag;
-
+			
+			choice = 0;
 			do {
 				try {
 					Scanner scanner = new Scanner(System.in);
 					choice = scanner.nextInt();
 					flag = false;
-				} catch (Exception e) {
+				} catch (InputMismatchException e) {
 					// accept integer only.
 					System.out.println("Enter only integer value.." + e);
 					flag = true;
@@ -582,7 +584,7 @@ public class BankApp {
 
 			case 3:
 
-				// make withdraw section
+				// make know more about banking app section
 				System.out.println("WELCOME TO KNOW MORE ABOUT BANKING APP SECTION ");
 				System.out.println("•The Bank app is a console-based application that simulates banking operations.");
 				System.out.println(
@@ -597,7 +599,7 @@ public class BankApp {
 
 			case 4:
 
-				// make deposit section
+				// know more about developer section
 				System.out.println("WELCOME TO Know About Developer SECTION ");
 				System.out.println("Go to GITHUB HERE -> https://github.com/TUC01108");
 				System.out.println();
@@ -619,7 +621,7 @@ public class BankApp {
 				
 				
 			}
-			scanner.close();
+			
 		}
 		
 	}
