@@ -15,6 +15,8 @@ class EmployeeDAOImplTest {
 	
 	EmployeeDAO employeeDAO;
 	Employee employee;
+	LoginDAO loginDAO;
+	Login login;
 	
 	int userId;
 	String username;
@@ -22,6 +24,7 @@ class EmployeeDAOImplTest {
 	String accounttype;
 	long balance;
 	String firstname;
+	String status;
 
 	@BeforeAll
 	static void setUpBeforeClass() throws Exception {
@@ -37,56 +40,35 @@ class EmployeeDAOImplTest {
 		userId = 9999;
 		username = "customer9999";
 		employee = new Employee();
+		
+		loginDAO = new LoginDAOImpl();
+		firstname = "john";
+		password = "password";
+		accounttype = "C";
+		balance = 10000000;
+		status = "N";
+		login = new Login();
 	}
 
 	@AfterEach
 	void tearDown() throws Exception {
 	}
+	
+	@Test
+	void testCreateUser() {
+		assertTrue(() -> loginDAO.register(username, password, accounttype, balance, firstname));
+	}
+	
 
 	@Test
 	void testDeleteUser() {
-		assertTrue(employeeDAO.deleteUser(username));
+		assertTrue(() -> employeeDAO.deleteUser(username));
 
 	}
-
+	
 	@Test
-	void testSearchByUsername() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	void testPrintAllUsers() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	void testIsUserExists() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	void testGetValues() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	void testGetTransactions() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	void testGetAllApplications() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	void testApproveApply() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	void testRejectApply() {
-		fail("Not yet implemented");
+	public void testUserExistsUniqueUserId() {
+		assertFalse(() -> employeeDAO.isUserExists(9999));
 	}
 
 }

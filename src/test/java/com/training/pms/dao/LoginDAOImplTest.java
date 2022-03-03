@@ -1,7 +1,5 @@
 package com.training.pms.dao;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
@@ -39,20 +37,12 @@ class LoginDAOImplTest {
 
 	@BeforeEach
 	void setUp() throws Exception {
-		loginDAO = new LoginDAOImpl();
-		firstname = "john";
-		userId = 9999;
-		username = "customer9999";
-		password = "password";
-		accounttype = "C";
-		balance = 10000000;
-		status = "N";
-		login = new Login();
+
 	}
 
 	@AfterEach
 	void tearDown() throws Exception {
-		employeeDAO.deleteUser(username);
+		//employeeDAO.deleteUser(username);
 		
 	}
 
@@ -61,7 +51,7 @@ class LoginDAOImplTest {
 	void testRegister1() {
 		//login = new Login(userId, "customer10", "password");
 		
-		assertTrue(loginDAO.register(username, password, accounttype, balance, firstname));
+		//assertTrue(loginDAO.register(username, password, accounttype, balance, firstname));
 	}
 	
 	
